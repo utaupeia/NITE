@@ -152,7 +152,19 @@ struct FourImagesView: View {
 
 
 
-let sampleUser = User(username: "sampleuser", profilePicture: "image1")
+let sampleUser = User(
+    id: UUID(),
+    username: "sampleUser",
+    profilePicture: "image4", // This URL is just a placeholder
+    following: [], // This user is not following anyone in this example
+    followers: [], // This user has no followers in this example
+    lurking: 5, // This number is arbitrary
+    status: .default, // Using the 'default' status for this example
+    acquiredThemes: [sampleTheme], // Assigning the sample theme we created
+    selectedTheme: sampleTheme, // This user has selected the sample theme
+    dateJoined: Date(), // The date of creating this sample, i.e., now
+    location: "USA"
+)
 
     // Create a sample image post with the user, timestamp, image content, and caption
 let sampleImagePost = Post(
@@ -166,7 +178,7 @@ let sampleImagePost = Post(
 
 
     // Create an ImagePostViewModel instance using the sample image post
-    let imagePostViewModel = PostViewModel(post: sampleImagePost)
+let imagePostViewModel = PostViewModel(post: sampleImagePost, currentUser: mockCurrentUser)
 
 #Preview {
     

@@ -9,18 +9,23 @@ import SwiftUI
 
 struct TabBarContainerView<Content:View>: View {
     @Binding var selection: TabBarItem
+
     let content: Content
     @State private var  tabs: [TabBarItem] = [
         .radio, .disco, .notifs, .profile, .create
     ]
     @State private var scale : CGFloat = 1
     
-    init(selection: Binding<TabBarItem>, @ViewBuilder content: () -> Content)   {
+    init(selection: Binding<TabBarItem>, userViewModel: UserViewModel, @ViewBuilder content: @escaping () -> Content) {
         self._selection = selection
-        self.content = content()
+        self.userViewModel = userViewModel  // Now userViewModel is initialized here
+        self.content = content()  // 'content' is set here after 'userViewModel' has been initialized.
     }
+
+    
     @EnvironmentObject var tabBarState: TabBarState
-        
+    @ObservedObject var userViewModel: UserViewModel  // Your view model
+
 //    let partyScreen = PartyScreen()
     
     @State private var containerAppeared: Bool = false
@@ -83,7 +88,7 @@ struct TabBarContainerView<Content:View>: View {
                         Spacer()
                         VStack(spacing: 0) {
                             if selection == .profile {
-                                ProfileElements(followsOverlay: $followOverlay)
+                                ProfileElements(viewModel: userViewModel, followsOverlay: $followOverlay)
                                     .padding(.vertical, 12)
                                     .foregroundColor(.white)
                             }
@@ -227,7 +232,7 @@ struct containersample_Previews: PreviewProvider {
         .radio, .disco, .notifs, .profile, .create
     ]
     static var previews: some View {
-        TabBarContainerView(selection: .constant(tabs.first!)) {
+        TabBarContainerView(selection: .constant(tabs.first!), userViewModel: userviewModel) {
             Color.gray
         }
         .environmentObject(TabBarState())

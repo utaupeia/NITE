@@ -18,7 +18,7 @@ class TextPostsViewModel: ObservableObject {
     init() {
         // Filter out posts that only have text content and initialize PostViewModels for each
         let textBasedPosts = SampleData.allPosts.filter { $0.textContent != nil }
-        textPosts = textBasedPosts.map { PostViewModel(post: $0) }
+        textPosts = textBasedPosts.map { PostViewModel(post: $0, currentUser: mockCurrentUser) }
     }
 }
 

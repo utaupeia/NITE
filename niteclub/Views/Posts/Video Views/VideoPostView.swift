@@ -57,7 +57,7 @@ let sampleVideoPost = Post(
 
 
     // Create an ImagePostViewModel instance using the sample image post
-    let vm = PostViewModel(post: sampleVideoPost)
+let vm = PostViewModel(post: sampleVideoPost, currentUser: mockCurrentUser)
 
 #Preview {
     VideoPostView(viewModel: vm)

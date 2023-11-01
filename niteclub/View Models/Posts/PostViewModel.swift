@@ -24,13 +24,18 @@ class PostViewModel: ObservableObject, Identifiable {
     @Published var post: Post
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    var currentUser: User
+    var quotingUser: User?  // This property will be nil for regular posts and will have a value only for quoted posts.
 
     // Each PostViewModel represents one Post, so the ID should be derived from the post
     var id: UUID { post.id }
 
     // Initializer
-    init(post: Post) {
+    init(post: Post, currentUser: User, quotingUser: User? = nil) {
         self.post = post
+        self.currentUser = currentUser
+        self.quotingUser = quotingUser
+    
     }
 
     // PICTURES
@@ -140,7 +145,11 @@ class PostsViewModel: ObservableObject {
     init() {
         // Assuming you fetch your sample posts here
         let posts = SampleData.allPosts
-        postViewModels = posts.map { PostViewModel(post: $0) }
+        
+        // Assuming you have a way to get the current user
+        let currentUser = getCurrentUser()
+        
+        postViewModels = posts.map { PostViewModel(post: $0, currentUser: currentUser) }
 
         // After creating your view models, you can loop through them for debugging purposes:
         for (index, viewModel) in postViewModels.enumerated() {
@@ -151,6 +160,21 @@ class PostsViewModel: ObservableObject {
             }
         }
     }
+
+    func getCurrentUser() -> User {
+        // Your logic to get the current user goes here
+        // For the sake of this example, I'm returning a dummy user
+        return User(id: UUID(), username: "CurrentUser", profilePicture: "", following: [], followers: [], status: .default, acquiredThemes: [], selectedTheme: ThemeContent(
+            id: UUID(),
+            name: "Sample Theme",
+            content: Theme(themeURL: "image9"), // This URL is just a placeholder
+            price: 0.0, // It's a free theme in this example
+            creationDate: Date(),
+            approved: true // This sample theme is approved
+        )
+                    , dateJoined: Date(), location: "")
+    }
+
 
 
     var textPostViewModels: [PostViewModel] {
@@ -170,6 +194,20 @@ class PostsViewModel: ObservableObject {
         postViewModels.filter {
             !($0.post.videos?.isEmpty ?? true)
         }
+    }
+}
+
+extension PostViewModel {
+    // Determine if this post is a repost
+    var isRepost: Bool {
+        // Your logic here, maybe check if the post's author is not the current user but is in the user's reposts
+        return post.socialInteractions.reposts.contains { $0.id == currentUser.id }
+    }
+    
+    // Determine if this post is a quote
+    var isQuote: Bool {
+        // This is a simple check, and you might need more sophisticated logic
+        return post.socialInteractions.quotes.contains { $0.quotingUser.id == currentUser.id }
     }
 }
 

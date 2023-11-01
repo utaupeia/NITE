@@ -11,19 +11,24 @@ struct PostView: View {
     @ObservedObject var viewModel: PostViewModel
 
     var body: some View {
-        switch viewModel.post.type {
-        case .text:
-            TextPostView(viewModel: viewModel)
-        case .image:
-            ImagePostView(viewModel: viewModel)
-        case .video:
-            VideoPostView(viewModel: viewModel)
-        default:
-            // You might have a generic view for unsupported content types
-            EmptyView()
+        VStack {
+
+            
+            switch viewModel.post.type {
+            case .text:
+                TextPostView(viewModel: viewModel)
+            case .image:
+                ImagePostView(viewModel: viewModel)
+            case .video:
+                VideoPostView(viewModel: viewModel)
+            default:
+                EmptyView()
+            }
         }
     }
 }
+
+let quotedTextPost = Post(id: UUID(), author: sampleUser, timestamp: Date(), textContent: "This is the original post being quoted!", images: nil, videos: nil, socialInteractions: interactionsManager)
 
 
 let textPost = Post(id: UUID(), author: sampleUser, timestamp: Date(), textContent: "This is an amazing text post!", images: nil, videos: nil, socialInteractions: interactionsManager)
@@ -32,9 +37,9 @@ let imagePost = Post(id: UUID(), author: sampleUser, timestamp: Date(), textCont
 
 let videoPost = Post(id: UUID(), author: sampleUser, timestamp: Date(), textContent: "Awesome video ahead!", images: nil, videos: ["videoUrl"], socialInteractions: interactionsManager)
 
- let textPostViewModel = PostViewModel(post: textPost)
- let videoPostViewModel = PostViewModel(post: videoPost)
+let textPostViewModel = PostViewModel(post: textPost, currentUser: mockCurrentUser)
+let videoPostViewModel = PostViewModel(post: videoPost, currentUser: mockCurrentUser)
 
 #Preview {
-    PostView(viewModel: PostViewModel(post: textPost))
+    PostView(viewModel: PostViewModel(post: textPost, currentUser: mockCurrentUser))
 }

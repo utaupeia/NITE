@@ -10,18 +10,19 @@ import AVFoundation
 import _AVKit_SwiftUI
 
 struct CreatePostView: View {
-    @EnvironmentObject var viewModel: CreatePostViewModel  // assuming it's stored as an environment object
+    @ObservedObject var viewModel: CreatePostViewModel
     @State private var showMediaPicker: Bool = false
     @State private var mediaShown: Bool = false
     private let characterLimit = 222
     var body: some View {
         VStack(alignment: .leading) {
-            TextField("What's on your mind?", text: $viewModel.formData.textContent, axis: .vertical)
+            TextField("What's on your mind?", text: $viewModel.textContent, axis: .vertical)
                 .font(.system(size: 16))
                 .foregroundColor(.black)
                 .padding(12)
+                .padding(.vertical, 12)
                 .background(
-                    RoundedRectangle(cornerRadius: 30)
+                    RoundedRectangle(cornerRadius: 21)
                         .stroke(.black, lineWidth: 1)
                 )
                 .cornerRadius(8)
@@ -48,21 +49,22 @@ struct CreatePostView: View {
                 }
         }
             
-            
-            Button(action: {
-                // Here, create the post with the necessary data
-                viewModel.addPost(author: User(username: "user", profilePicture: "image3"), socialInteractions: SocialInteractionsManager())  // replace with actual data
-            }) {
-                Text("Post")
-                    .padding()
+            Button("Submit Post") {
+                // Logic to create the post
+                // For now, we're just creating a post with a dummy 'User' and current timestamp.
+                _ = viewModel.createPost(author: User(username: "user", profilePicture: "image1", selectedTheme: sampleTheme, dateJoined: Date(), location: "az")) // Assuming a User initializer
+                // Handle the new post: Save to a database, update UI, etc.
             }
+
+
         }
         .padding()
     }
 }
 let mockViewModel = CreatePostViewModel()
+// Sample initialization of ThemeContent for demonstration purposes
+
 
 #Preview {
-    CreatePostView()
-        .environmentObject(mockViewModel)  // Here's where you inject the mock view model
+    CreatePostView(viewModel: CreatePostViewModel())
 }

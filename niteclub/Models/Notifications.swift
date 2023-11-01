@@ -7,6 +7,8 @@
 
 import Foundation
 
+// make notifications grouped by date up to ONE WEEK [ tpday , yesterday , 2 days ago , etc ... ]
+
 // Enum representing the different types of notifications.
 // Each case corresponds to a different event that might happen in your app.
 enum NotificationType {
@@ -29,12 +31,12 @@ enum NotificationType {
 
 // A single notification.
 struct UserNotification: Identifiable {
-    var id: UUID  // Unique identifier for the notification
-    var type: NotificationType  // Type of notification
-    var title: String  // Short descriptor of the notification
-    var message: String  // More detailed description, could be based on the notification type
-    var timestamp: Date  // When the notification was issued
-    var isRead: Bool  // Whether or not the notification has been read
+    var id: UUID                        // Unique identifier for the notification
+    var type: NotificationType          // Type of notification
+    var title: String                   // Short descriptor of the notification
+    var message: String                 // More detailed description, could be based on the notification type
+    var timestamp: Date                 // When the notification was issued
+    var isRead: Bool                    // Whether or not the notification has been read
 
     // Depending on your design, you might include additional metadata
     // related to the notification here, potentially including navigation information.

@@ -9,9 +9,9 @@ import Foundation
 
 struct SampleData {
     // Users
-    static let userJohn = User(id: UUID(), username: "JohnDoe", profilePicture: "image1")
-    static let userEmma = User(id: UUID(), username: "EmmaA", profilePicture: "image10")
-    static let userRobert = User(id: UUID(), username: "RobertZ", profilePicture: "image9")
+    static let userJohn = User(id: UUID(), username: "JohnDoe", profilePicture: "image1", following: [], followers: [], lurking: 7832, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
+    static let userEmma = User(id: UUID(), username: "EmmaA", profilePicture: "image10", following: [], followers: [], lurking: 322, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
+    static let userRobert = User(id: UUID(), username: "RobertZ", profilePicture: "image9", following: [], followers: [], lurking: 4257, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
     // ... as many users as you want for variety.
 }
 

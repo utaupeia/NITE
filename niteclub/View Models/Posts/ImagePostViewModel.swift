@@ -22,7 +22,7 @@ class ImagePostsViewModel: ObservableObject {
     // Initializer to load the posts
     init() {
         let posts = SampleData.allPosts // Assuming you fetch your sample posts here
-        postViewModels = posts.map { PostViewModel(post: $0) }
+        postViewModels = posts.map { PostViewModel(post: $0, currentUser: mockCurrentUser) }
     }
 }
 

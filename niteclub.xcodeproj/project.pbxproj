@@ -63,6 +63,14 @@
 		F9C265612AEB929B00C9D05C /* DiscoHubItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C265602AEB929B00C9D05C /* DiscoHubItems.swift */; };
 		F9C265632AEB92A600C9D05C /* DiscoHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C265622AEB92A600C9D05C /* DiscoHub.swift */; };
 		F9C265652AEB95D400C9D05C /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C265642AEB95D400C9D05C /* CreatePostViewModel.swift */; };
+		F9E502672AEC8F5400C47609 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E502662AEC8F5400C47609 /* UserViewModel.swift */; };
+		F9E5026A2AEC921800C47609 /* UserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E502692AEC921800C47609 /* UserCard.swift */; };
+		F9E7556C2AF1A63400D168E9 /* ProfileContentTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E7556B2AF1A63400D168E9 /* ProfileContentTabView.swift */; };
+		F9E7556E2AF1A66000D168E9 /* ProfilePostFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E7556D2AF1A66000D168E9 /* ProfilePostFeedView.swift */; };
+		F9E755702AF1A8DC00D168E9 /* LikedPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E7556F2AF1A8DC00D168E9 /* LikedPostsView.swift */; };
+		F9E755722AF1B2D900D168E9 /* ProfileImageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E755712AF1B2D900D168E9 /* ProfileImageContentView.swift */; };
+		F9E755752AF1B38200D168E9 /* QuotePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E755742AF1B38200D168E9 /* QuotePostView.swift */; };
+		F9E755782AF1B8C800D168E9 /* RepostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E755772AF1B8C800D168E9 /* RepostView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +151,14 @@
 		F9C265602AEB929B00C9D05C /* DiscoHubItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoHubItems.swift; sourceTree = "<group>"; };
 		F9C265622AEB92A600C9D05C /* DiscoHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoHub.swift; sourceTree = "<group>"; };
 		F9C265642AEB95D400C9D05C /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
+		F9E502662AEC8F5400C47609 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		F9E502692AEC921800C47609 /* UserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCard.swift; sourceTree = "<group>"; };
+		F9E7556B2AF1A63400D168E9 /* ProfileContentTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentTabView.swift; sourceTree = "<group>"; };
+		F9E7556D2AF1A66000D168E9 /* ProfilePostFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostFeedView.swift; sourceTree = "<group>"; };
+		F9E7556F2AF1A8DC00D168E9 /* LikedPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPostsView.swift; sourceTree = "<group>"; };
+		F9E755712AF1B2D900D168E9 /* ProfileImageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageContentView.swift; sourceTree = "<group>"; };
+		F9E755742AF1B38200D168E9 /* QuotePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotePostView.swift; sourceTree = "<group>"; };
+		F9E755772AF1B8C800D168E9 /* RepostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepostView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +270,7 @@
 		F95713BC2AE34279005785EF /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				F9E502652AEC8F4000C47609 /* User */,
 				F9C265402AEB79C300C9D05C /* Create Story */,
 				F9C2653F2AEB79B100C9D05C /* Create Posts */,
 				F9C265292AEB666600C9D05C /* Story Posts */,
@@ -265,6 +282,7 @@
 		F95713BE2AE3428E005785EF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F9E502682AEC91F400C47609 /* User Views */,
 				F9C2652C2AEB66AF00C9D05C /* Story Posts */,
 				F9C265132AEA246100C9D05C /* Posts */,
 				F9C2651A2AEA259800C9D05C /* Main */,
@@ -386,6 +404,8 @@
 		F9C265132AEA246100C9D05C /* Posts */ = {
 			isa = PBXGroup;
 			children = (
+				F9E755762AF1B8B600D168E9 /* Repost Post Views */,
+				F9E755732AF1B36E00D168E9 /* Quote Post Views */,
 				F95713E92AE4D480005785EF /* PostView.swift */,
 				F95713DC2AE3A8EF005785EF /* Video Views */,
 				F95713DB2AE3A8D6005785EF /* Image Views */,
@@ -455,6 +475,7 @@
 		F9C265202AEA265900C9D05C /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F9E7556A2AF1A52F00D168E9 /* Profile Contents */,
 				F9C265212AEA266700C9D05C /* Current User */,
 				F9C265222AEA267500C9D05C /* Other User */,
 				F9C2655C2AEB8C4500C9D05C /* ProfileElements.swift */,
@@ -546,6 +567,49 @@
 			children = (
 			);
 			path = "Create Music";
+			sourceTree = "<group>";
+		};
+		F9E502652AEC8F4000C47609 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				F9E502662AEC8F5400C47609 /* UserViewModel.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		F9E502682AEC91F400C47609 /* User Views */ = {
+			isa = PBXGroup;
+			children = (
+				F9E502692AEC921800C47609 /* UserCard.swift */,
+			);
+			path = "User Views";
+			sourceTree = "<group>";
+		};
+		F9E7556A2AF1A52F00D168E9 /* Profile Contents */ = {
+			isa = PBXGroup;
+			children = (
+				F9E7556B2AF1A63400D168E9 /* ProfileContentTabView.swift */,
+				F9E7556D2AF1A66000D168E9 /* ProfilePostFeedView.swift */,
+				F9E7556F2AF1A8DC00D168E9 /* LikedPostsView.swift */,
+				F9E755712AF1B2D900D168E9 /* ProfileImageContentView.swift */,
+			);
+			path = "Profile Contents";
+			sourceTree = "<group>";
+		};
+		F9E755732AF1B36E00D168E9 /* Quote Post Views */ = {
+			isa = PBXGroup;
+			children = (
+				F9E755742AF1B38200D168E9 /* QuotePostView.swift */,
+			);
+			path = "Quote Post Views";
+			sourceTree = "<group>";
+		};
+		F9E755762AF1B8B600D168E9 /* Repost Post Views */ = {
+			isa = PBXGroup;
+			children = (
+				F9E755772AF1B8C800D168E9 /* RepostView.swift */,
+			);
+			path = "Repost Post Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -681,6 +745,7 @@
 			files = (
 				F9C2650B2AEA120900C9D05C /* Notifications.swift in Sources */,
 				F9C265512AEB8A4300C9D05C /* TabBarPreferenceKey.swift in Sources */,
+				F9E7556E2AF1A66000D168E9 /* ProfilePostFeedView.swift in Sources */,
 				F9C265632AEB92A600C9D05C /* DiscoHub.swift in Sources */,
 				F96D03F32AE5C46800025512 /* ImageDisco.swift in Sources */,
 				F95713C02AE342B7005785EF /* User.swift in Sources */,
@@ -689,6 +754,7 @@
 				F95713912AE3418E005785EF /* ContentView.swift in Sources */,
 				F9C265652AEB95D400C9D05C /* CreatePostViewModel.swift in Sources */,
 				F9C265122AEA23C700C9D05C /* SampleData.swift in Sources */,
+				F9E5026A2AEC921800C47609 /* UserCard.swift in Sources */,
 				F9C265262AEAF51B00C9D05C /* DiscoTabView.swift in Sources */,
 				F95713DA2AE37995005785EF /* ImagePostView.swift in Sources */,
 				F9C265172AEA256000C9D05C /* ThemeDisco.swift in Sources */,
@@ -700,6 +766,7 @@
 				F95713D52AE37567005785EF /* Blur.swift in Sources */,
 				F95713C62AE3468D005785EF /* Comment.swift in Sources */,
 				F95713CA2AE34C21005785EF /* ImagePostViewModel.swift in Sources */,
+				F9E755752AF1B38200D168E9 /* QuotePostView.swift in Sources */,
 				F9C265092AEA0DDC00C9D05C /* DirectMessage.swift in Sources */,
 				F95713C82AE3483B005785EF /* Quote.swift in Sources */,
 				F95713EA2AE4D480005785EF /* PostView.swift in Sources */,
@@ -707,9 +774,11 @@
 				F9C265052AEA0CB100C9D05C /* Theme.swift in Sources */,
 				F9C265532AEB8A6700C9D05C /* AppTabBarView.swift in Sources */,
 				F95713DE2AE3AA55005785EF /* VideoPostView.swift in Sources */,
+				F9E7556C2AF1A63400D168E9 /* ProfileContentTabView.swift in Sources */,
 				F95713D22AE3701E005785EF /* TextPostView.swift in Sources */,
 				F9C265152AEA254700C9D05C /* VideoDisco.swift in Sources */,
 				F95713D02AE35135005785EF /* VideoPostViewModel.swift in Sources */,
+				F9E502672AEC8F5400C47609 /* UserViewModel.swift in Sources */,
 				F9C265592AEB8B8B00C9D05C /* NotificationView.swift in Sources */,
 				F9C265572AEB8B7500C9D05C /* ProfileContentView.swift in Sources */,
 				F96D03ED2AE5BDFB00025512 /* GridItemView.swift in Sources */,
@@ -717,11 +786,14 @@
 				F9C2652B2AEB667700C9D05C /* StoryViewModel.swift in Sources */,
 				F95713EC2AE4DF8F005785EF /* testing.swift in Sources */,
 				F9C265382AEB69A200C9D05C /* ThirdStorySample.swift in Sources */,
+				F9E755722AF1B2D900D168E9 /* ProfileImageContentView.swift in Sources */,
 				F957138F2AE3418E005785EF /* niteclubApp.swift in Sources */,
 				F9C2654D2AEB89EF00C9D05C /* TabBarItem.swift in Sources */,
 				F95713E82AE4D378005785EF /* CreatePostView.swift in Sources */,
+				F9E755782AF1B8C800D168E9 /* RepostView.swift in Sources */,
 				F95713C22AE34380005785EF /* Post.swift in Sources */,
 				F9C2654F2AEB8A1F00C9D05C /* TabBarView.swift in Sources */,
+				F9E755702AF1A8DC00D168E9 /* LikedPostsView.swift in Sources */,
 				F96D04422AE74D2B00025512 /* PostViewModel.swift in Sources */,
 				F95713D82AE377FB005785EF /* TimeSinceFormatter.swift in Sources */,
 				F9C265192AEA257000C9D05C /* StoryDisco.swift in Sources */,

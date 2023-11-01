@@ -25,9 +25,9 @@ class StoryViewModel: ObservableObject {
     // Load dummy data for demonstration purposes
     private func loadDummyData() {
         // Create some dummy users
-        let alice = User(username: "Alice", profilePicture: "image7")
-        let bob = User(username: "Bob", profilePicture: "image3")
-        let charlie = User(username: "Charlie", profilePicture: "image1")
+        let alice = User(username: "Alice", profilePicture: "image7", following: [], followers: [], lurking: 7832, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
+        let bob = User(username: "Bob", profilePicture: "image3", following: [], followers: [], lurking: 7832, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
+        let charlie = User(username: "Charlie", profilePicture: "image1", following: [], followers: [], lurking: 7832, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
 
         // Create some stories for each user
         let alicesStories = [

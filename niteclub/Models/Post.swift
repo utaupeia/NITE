@@ -22,6 +22,9 @@ class Post: Identifiable, ObservableObject {
     var textContent: String? // used for text posts, optional for others
     var images: [String]? // URLs or identifiers for images, if any
     var videos: [String]? // URLs or identifiers for videos, if any
+    var repostedBy: User?  // This property will be nil for regular posts and will have a value only for quoted posts.
+
+    // LOCATION
     // Can close friends post
     // Can be NSFW post 
     @Published var socialInteractions: SocialInteractionsManager  // Needs to be Codable, if it's a class/struct with custom types.
@@ -32,7 +35,7 @@ class Post: Identifiable, ObservableObject {
 //    }
 
     // Regular initializer (not part of Codable)
-    init(id: UUID = UUID(), author: User, timestamp: Date, textContent: String?, images: [String]?, videos: [String]?, socialInteractions: SocialInteractionsManager) {
+    init(id: UUID = UUID(), author: User, timestamp: Date, textContent: String?, images: [String]?, videos: [String]?, socialInteractions: SocialInteractionsManager, repostedBy: User? = nil) {
         self.id = id
         self.author = author
         self.timestamp = timestamp
@@ -40,6 +43,7 @@ class Post: Identifiable, ObservableObject {
         self.images = images
         self.videos = videos
         self.socialInteractions = socialInteractions
+        self.repostedBy = repostedBy
     }
 }
 extension Post {

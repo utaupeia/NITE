@@ -65,7 +65,7 @@ let sampleTextPost = Post(
     socialInteractions: interactionsManager
 )
 
-let viewModel = PostViewModel(post: sampleTextPost)
+let viewModel = PostViewModel(post: sampleTextPost, currentUser: mockCurrentUser)
 
 #Preview {
     TextPostView(viewModel: viewModel)

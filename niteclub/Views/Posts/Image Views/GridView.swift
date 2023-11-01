@@ -57,13 +57,21 @@ struct GridView: View {
     }
 }
 // Extract image names from the sample posts
+let mockCurrentUser = User(id: UUID(), username: "CurrentUser", profilePicture: "", following: [], followers: [], status: .default, acquiredThemes: [], selectedTheme: ThemeContent(
+    name: "Cool Blue",
+    content: Theme(themeURL: "url_to_theme_content"),
+    price: 2.99,
+    creationDate: Date(),  // Assuming the theme is created now
+    approved: true  // Let's say this theme is already approved
+), dateJoined: Date(), location: "Test Location")
+
 let mockPostViewModels = SampleData.allPosts.filter {
     // Ensure that the post has at least one image
     guard let images = $0.images, !images.isEmpty else {
         return false
     }
     return true
-}.map { PostViewModel(post: $0) }
+}.map { PostViewModel(post: $0, currentUser: mockCurrentUser) }
 
 #Preview {
     GridView(imagePosts: mockPostViewModels)
@@ -73,6 +81,7 @@ let mockPostViewModels = SampleData.allPosts.filter {
 class MockPostViewModel: PostViewModel {
     init() {
         // Assuming your PostViewModel expects a 'Post' model on initialization. Adjust as per your actual initializer.
-        super.init(post: Post(id: UUID(), author: User(id: UUID(), username: "testUser", profilePicture: "testImage"), timestamp: Date(), textContent: "Test post", images: ["image1", "image2"], videos: nil, socialInteractions: SocialInteractionsManager()))
+        super.init(post: Post(id: UUID(), author: User(id: UUID(), username: "testUser", profilePicture: "testImage", selectedTheme: sampleTheme, dateJoined: Date(), location: "some")
+                              , timestamp: Date(), textContent: "Test post", images: ["image1", "image2"], videos: nil, socialInteractions: SocialInteractionsManager()), currentUser: mockCurrentUser)
     }
 }

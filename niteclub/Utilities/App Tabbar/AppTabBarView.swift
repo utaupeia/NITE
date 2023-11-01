@@ -11,12 +11,13 @@ struct AppTabBarView: View {
     @State private var selection: String = "profile"
     @State private var tabSelection: TabBarItem = .profile
     @StateObject private var tabBarState = TabBarState()
-    
+    @StateObject var userviewModel = UserViewModel(user: sampleUser)
+
     var body: some View {
         
-        TabBarContainerView(selection: $tabSelection) {
+        TabBarContainerView(selection: $tabSelection, userViewModel: userviewModel) {
 
-            CreatePostView()
+            CreatePostView(viewModel: CreatePostViewModel())
                 .ignoresSafeArea()
                 .tabBarItem(tab: .create, selection: $tabSelection)
 

@@ -29,3 +29,11 @@ struct TimeSinceFormatter {
 }
 
 
+struct monthYearFormatter {
+    static func format(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM yy"  // e.g., "Feb 23"
+        return formatter.string(from: date)
+    }
+
+}

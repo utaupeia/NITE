@@ -16,7 +16,7 @@ enum MessageAttachment {
 // A single piece of message content, which can have text and/or attachments
 struct MessageContent {
     var text: String?  // Text content of the message, if any
-    var attachments: [MessageAttachment]  // Any attachments included with the message
+    var attachments: [MessageAttachment]?  // Any attachments included with the message
 }
 
 // A single direct message.
@@ -60,6 +60,7 @@ struct DirectMessage: Identifiable {
 
 // A conversation between two or more users.
 struct Conversation: Identifiable {
+    var currentUserId: UUID
     var id: UUID  // Unique identifier for the conversation
     var participants: [User]  // All users in the conversation
     var messages: [DirectMessage]  // All messages in the conversation
@@ -67,11 +68,20 @@ struct Conversation: Identifiable {
 
     // You might also include data for conversation settings, archived messages, etc.
 
-    init(id: UUID = UUID(), participants: [User], messages: [DirectMessage] = [], lastMessageDate: Date) {
+    init( currentUserID: UUID = UUID(), id: UUID = UUID(), participants: [User], messages: [DirectMessage] = [], lastMessageDate: Date) {
+        self.currentUserId = currentUserID
         self.id = id
         self.participants = participants
         self.messages = messages
         self.lastMessageDate = lastMessageDate
+    }
+
+    func getOtherUserTheme() -> ThemeContent? {
+        // Find the other user in the conversation
+        let otherUser = participants.first { $0.id != currentUserId }
+
+        // Return the selected theme of the other user
+        return otherUser?.selectedTheme
     }
 
     // Send a message in the conversation

@@ -9,10 +9,18 @@ import SwiftUI
 
 struct ImagePostView: View {
     @ObservedObject var viewModel: PostViewModel
-    
+    @EnvironmentObject var postsViewModel: PostsViewModel
+
+    @State private var navigateToProfile: Bool = false
+    @Binding var navigationPath: NavigationPath
+
+    var onProfilePictureClicked: ((User) -> Void)?
+
+    var onSelectPost: (PostViewModel) -> Void
+
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 0) {
             
             ZStack(alignment: .topLeading) {
                 
@@ -30,34 +38,64 @@ struct ImagePostView: View {
                         EmptyView() // or some other placeholder for posts with different numbers of images
                     }
                 }
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        onSelectPost(viewModel)
+                    }
+                }
                 .cornerRadius(12)
                 
-                Image(viewModel.post.author.profilePicture)
-                    .resizable()
-                    .frame(width: 36, height: 60)
-                    .cornerRadius(6)
-                    .padding(9)
+                Button(action: {
+                    withAnimation(.spring) {navigateToProfile(viewModel.post.author)}
+                }) {
+                    Image(viewModel.post.author.profilePicture)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 36, height: 60)
+                        .cornerRadius(6)
+                        .padding(9)
+                        .clipped()
+
+                }
             }
                 
                 HStack {
-                    Text(viewModel.post.author.username)
-                        .font(.system(size: 13))
-                        .fontWeight(.bold)
+                    Button(action: {
+                        // This assumes that your Post has a reference to the user who created it
+                        withAnimation(.spring) {navigateToProfile(viewModel.post.author)}
+                    }) {
+                        Text(viewModel.post.author.username)
+                            .font(.system(size: 13))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white.opacity(0.75))
+                            .padding(.top, 6)
+                    }
                     Spacer()
                     Text(viewModel.time)
                         .font(.system(size: 10))
                         .foregroundColor(.gray)
                 }
-                .padding(.horizontal, 6)
+                .padding(.horizontal, 9)
                 
                 if let caption = viewModel.post.textContent {  // Safely unwrap the optional caption
                     Text(caption)
                         .font(.system(size: 15))
                         .padding(.horizontal, 6)
+                        .foregroundColor(.white)
+                        .padding(.top, 3)
 
+                } else {
+                    EmptyView()
+                        .frame(height: 0)
                 }
             }
         }
+    func navigateToProfile(_ user: User) {
+        withAnimation(.spring) {
+            postsViewModel.selectUser(user)
+            navigationPath.append(user)  // Trigger navigation
+        }
+    }
     }
 // MARK: - Individual Views for different image counts
 
@@ -182,5 +220,8 @@ let imagePostViewModel = PostViewModel(post: sampleImagePost, currentUser: mockC
 
 #Preview {
     
-    return ImagePostView(viewModel: imagePostViewModel)
+    return ImagePostView(viewModel: imagePostViewModel, navigationPath: .constant(NavigationPath()),
+                         onSelectPost: { _ in }
+                         )
 }
+                         

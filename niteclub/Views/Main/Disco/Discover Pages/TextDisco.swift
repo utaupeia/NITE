@@ -8,15 +8,32 @@
 import SwiftUI
 
 struct TextDisco: View {
-    @ObservedObject var viewModel = PostsViewModel() // This will be your view model containing all posts
+    @EnvironmentObject var viewModel: PostsViewModel
+    @Binding var navigationPath: NavigationPath
+    @Namespace private var namespace
+    @EnvironmentObject var sharedViewModel: SharedViewModel
 
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(viewModel.textPostViewModels) { postViewModel in
-                    // Now PostView is being initialized with only text-based PostViewModels
-                    TextPostView(viewModel: postViewModel) // This is your existing PostView or a modified version that better suits text posts
-                        .padding(.bottom, 8)
+        ScrollViewReader { scrollViewProxy in
+            ScrollView {
+                VStack {
+                    ForEach(viewModel.textPostViewModels.indices, id: \.self) { index in
+                        PostView(
+                            viewModel: viewModel.textPostViewModels[index],
+                            navigationPath: $navigationPath,
+                            namespace: namespace,
+                            onSelectPost: { selectedViewModel in
+                                sharedViewModel.selectedPost = selectedViewModel
+                            }
+                        )
+//                        , onSelect: { _ in selectedPostIndex = index }
+                            .padding(.bottom, 8)
+                    }
+                }
+                .onAppear {
+//                    if let index = selectedPostIndex {
+//                        scrollViewProxy.scrollTo(index)
+//                    }
                 }
             }
         }
@@ -25,5 +42,7 @@ struct TextDisco: View {
 }
 
 #Preview {
-    TextDisco()
+    TextDisco( navigationPath: .constant(NavigationPath()))
+        .environmentObject(PostsViewModel()) // Provide a PostsViewModel instance
+
 }

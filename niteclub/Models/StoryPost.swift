@@ -7,39 +7,67 @@
 
 import Foundation
 
-// Single entity representing a piece of story content.
 struct StoryItem: Identifiable {
     var id: UUID
     var author: User
     var mediaURL: String
-    var duration: TimeInterval
+    var duration: TimeInterval // Duration for which the story is shown (e.g., 5 seconds)
     var postedDate: Date
-    var expiresDate: Date
+    var expiresAfter: TimeInterval // Duration after which the story expires (e.g., 2 hours)
     var seen: Bool = false
     var likes: [User]
     var replies: [Reply]
+    var views: [User]
+    var isCloseFriendsOnly: Bool = false
+    
+    static let expirationDuration: TimeInterval = 7200 // 2 hours in seconds
+
 
     // Initialize the StoryItem with necessary data
-    init(author: User, mediaURL: String, duration: TimeInterval, postedDate: Date, expiresDate: Date, likes: [User] = [], replies: [Reply] = []) {
+    init(author: User, mediaURL: String, postedDate: Date, duration: TimeInterval, expiresAfter: TimeInterval = 7200, likes: [User] = [], replies: [Reply] = [], views: [User] = [], isCloseFriendsOnly: Bool = false) {
         self.id = UUID()
         self.author = author
         self.mediaURL = mediaURL
-        self.duration = duration
         self.postedDate = postedDate
-        self.expiresDate = expiresDate
+        self.duration = duration
+        self.expiresAfter = StoryItem.expirationDuration
         self.likes = likes
         self.replies = replies
+        self.views = views
+        self.isCloseFriendsOnly = isCloseFriendsOnly
+    }
+
+    func isExpired() -> Bool {
+        return Date().timeIntervalSince(postedDate) > expiresAfter
+    }
+
+
+    mutating func addView(user: User) {
+        if !isExpired() && !views.contains(where: { $0.id == user.id }) {
+            views.append(user)
+        }
     }
 
     // Here, you can add functions to handle likes, replies, and other interactions with the story item.
     // ...
 }
+extension StoryItem {
+    var remainingTime: TimeInterval {
+        let elapsed = Date().timeIntervalSince(postedDate)
+        return max(expiresAfter - elapsed, 0)
+    }
+}
 
-// Reply structure remains unchanged.
 struct Reply {
     var user: User
     var message: String
     var date: Date
+}
+
+extension StoryGroup {
+    var totalDuration: TimeInterval {
+        return stories.reduce(0) { $0 + $1.duration }
+    }
 }
 
 class StoryGroup: Identifiable {
@@ -55,14 +83,27 @@ class StoryGroup: Identifiable {
         self.user = user
         self.stories = stories
     }
+    
 
     // Function to get the current story
-    func currentStory() -> StoryItem? {
-        if currentStoryIndex < stories.count {
-            return stories[currentStoryIndex]
+    func currentStory(for viewer: User) -> StoryItem? {
+        while currentStoryIndex < stories.count {
+            let story = stories[currentStoryIndex]
+            if !story.isExpired() &&
+               (!story.isCloseFriendsOnly || story.author.isCloseFriend(of: viewer)) {
+                return story
+            }
+            currentStoryIndex += 1
         }
-        return nil // Or handle this case as appropriate for your app's logic.
+        return nil
     }
+
+//    func currentStory() -> StoryItem? {
+//        if currentStoryIndex < stories.count {
+//            return stories[currentStoryIndex]
+//        }
+//        return nil // Or handle this case as appropriate for your app's logic.
+//    }
 
     // Function to advance to the next story
     func nextStory() {

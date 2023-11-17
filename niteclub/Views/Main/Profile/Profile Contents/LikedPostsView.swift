@@ -9,15 +9,28 @@ import SwiftUI
 
 struct LikedPostsView: View {
     var likedPosts: [Post]
+    var user: User
+    @State private var selectedPostIndex: Int?
+    @Namespace private var namespace
+    @State private var selectedPost: PostViewModel?
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                ForEach(likedPosts) { post in
-                    PostView(viewModel: PostViewModel(post: post, currentUser: mockCurrentUser))
+                ForEach(likedPosts.indices, id: \.self) { index in
+                    let postViewModel = PostViewModel(post: likedPosts[index], currentUser: user)
+                    PostView(
+                        viewModel: postViewModel,
+                        navigationPath: .constant(NavigationPath()),
+                        namespace: namespace,
+                        onSelectPost: { selectedViewModel in
+                            selectedPost = selectedViewModel
+                        }
+                    )
                 }
+                .padding(12)
             }
-            .padding()
+            .padding(.top, 30)
         }
     }
 }
@@ -27,4 +40,4 @@ let samplePost = Post(author: sampleUser, timestamp: Date(), textContent: "This 
 
 
 #Preview {
-    LikedPostsView(likedPosts: [samplePost])}
+    LikedPostsView(likedPosts: [samplePost], user: sampleUser)}

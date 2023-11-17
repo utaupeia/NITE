@@ -25,6 +25,8 @@ struct TabBarContainerView<Content:View>: View {
     
     @EnvironmentObject var tabBarState: TabBarState
     @ObservedObject var userViewModel: UserViewModel  // Your view model
+    
+    @State private var selectedUserViewModel: UserViewModel?
 
 //    let partyScreen = PartyScreen()
     
@@ -46,35 +48,13 @@ struct TabBarContainerView<Content:View>: View {
     @State private var showUserProfile: Bool = false
     //
     @State private var followOverlay: Bool = false
-    private var blurView: some View {
-        let blurHeight: CGFloat
-        let blurCornerRadius: CGFloat
-        let blurHorizontalPadding: CGFloat
-        let blurOpacity: Double
-        switch selection {
-        case .profile:
-            blurHeight = partialCover ? .infinity : 155
-            blurCornerRadius = 45
-            blurHorizontalPadding = partialCover ? 0 : 15
-            blurOpacity = 0.75
-        case .disco:
-            blurHeight = showUserProfile ? 240 : 66
-            blurCornerRadius = 45
-            blurHorizontalPadding = 15
-            blurOpacity = 0.75
-        default:
-            blurHeight = 66
-            blurCornerRadius = 45
-            blurHorizontalPadding = 15
-            blurOpacity = 0.75
-        }
-        return Blur(style: .dark)
-            .frame(height: blurHeight)
-            .frame(maxWidth: .infinity)
-            .cornerRadius(blurCornerRadius)
-            .padding(.horizontal, blurHorizontalPadding)
-            .opacity(blurOpacity)
-    }
+
+    @State private var selectedUser: User?
+    @EnvironmentObject var postsViewModel: PostsViewModel
+    
+    @Namespace private var namespace
+    @EnvironmentObject var sharedViewModel: SharedViewModel
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -87,6 +67,15 @@ struct TabBarContainerView<Content:View>: View {
                     VStack {
                         Spacer()
                         VStack(spacing: 0) {
+                            
+                            if selection == .disco {
+                                // Display the profile elements for the selected user
+                                if let selectedUser = postsViewModel.selectedUser {
+                                    ProfileElements(viewModel: UserViewModel(user: selectedUser), followsOverlay: $followOverlay)
+                                        .padding(.vertical, 12)
+                                }
+                            }
+                            
                             if selection == .profile {
                                 ProfileElements(viewModel: userViewModel, followsOverlay: $followOverlay)
                                     .padding(.vertical, 12)
@@ -213,6 +202,63 @@ struct TabBarContainerView<Content:View>: View {
                     
                 }
                 
+                if selection == .profile {
+                    ZStack(alignment: .topLeading) {
+                        ZStack(alignment: .topLeading) {
+                            Blur(style: .systemMaterialDark)
+                                .frame(width: showExtras ? .infinity : 30)
+                                .frame(height: showExtras ? .infinity : 30)
+                                .cornerRadius(21)
+                                .opacity(showExtras ? 1.0 : 0.0)
+                                .edgesIgnoringSafeArea(showExtras ? .all : .bottom)
+                                .onTapGesture {
+                                    withAnimation(.spring()) {
+                                        // dismiss settings
+                                    }
+                                }
+                            
+                            ExtrasScreen()
+                                .opacity(showExtras ? 1.0 : 0.0)
+                            
+                            ProfileSettings()
+                                .opacity(showSettings ? 1.0 : 0.0)
+                        }
+                        VStack {
+                            HStack(spacing:0) {
+//                                if showSettings {
+//                                    CancelButton(action: {
+//                                        withAnimation(.spring()) {
+//                                            showExtras.toggle()
+//                                        }
+//                                    })
+                                    
+//                                } else {
+                                    ExtrasButton(fullScreenContainer: $partialCover, showExtras: $showExtras)
+                                        .opacity(showSettings ? 0.0 : 1.0)
+//                                }
+                                Spacer()
+                                
+                                
+                                SettingsButton(showSettings: $showSettings)
+                                    .opacity(showEdit || showExtras ? 0.0 : 1.0)
+                                
+                            }
+//                            .opacity(showSettings ? 0.0 : 1.0)
+                            Spacer()
+                        }
+                    }
+                }
+
+
+
+                
+                if let selectedPost = sharedViewModel.selectedPost {
+                    PopupPostView(postViewModel: selectedPost, namespace: namespace) {
+                        sharedViewModel.selectedPost = nil
+                    }
+                    .zIndex(1)
+                }
+                
             }
 //            .onChange(of: tabBarState.isHidden) { _ in
 //                withAnimation(.spring(response: 0.3, dampingFraction: 0.7, blendDuration: 0)) {
@@ -236,6 +282,8 @@ struct containersample_Previews: PreviewProvider {
             Color.gray
         }
         .environmentObject(TabBarState())
+        .environmentObject(PostsViewModel())
+        .environmentObject(SharedViewModel())
     }
 }
 

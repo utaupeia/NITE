@@ -13,17 +13,15 @@ struct Comment: Identifiable {
     var text: String // Renamed from 'caption'
     var timestamp: Date
     var replies: [Comment]
+    var likes: [User] // Added for storing likes
+
     
-    init(id: UUID = UUID(), author: User, text: String, timestamp: Date, replies: [Comment] = []) {
+    init(id: UUID = UUID(), author: User, text: String, timestamp: Date, replies: [Comment] = [], likes: [User] = []) {
         self.id = id
         self.author = author
         self.text = text
         self.timestamp = timestamp
         self.replies = replies
-    }
-    
-    // Function to add a reply to a comment
-    mutating func addReply(_ reply: Comment) {
-        replies.append(reply)
+        self.likes = likes
     }
 }

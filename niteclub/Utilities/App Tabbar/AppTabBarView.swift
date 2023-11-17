@@ -12,33 +12,42 @@ struct AppTabBarView: View {
     @State private var tabSelection: TabBarItem = .profile
     @StateObject private var tabBarState = TabBarState()
     @StateObject var userviewModel = UserViewModel(user: sampleUser)
-
+    @State private var discoselection = 0 // This will be passed to DiscoTabView
+    @StateObject private var postsViewModel = PostsViewModel()
+    @StateObject private var engagementViewModel = SharedViewModel()
     var body: some View {
         
-        TabBarContainerView(selection: $tabSelection, userViewModel: userviewModel) {
+        ZStack {
+//            SelectedThemeView(theme: userviewModel.user.selectedTheme)
 
-            CreatePostView(viewModel: CreatePostViewModel())
-                .ignoresSafeArea()
-                .tabBarItem(tab: .create, selection: $tabSelection)
+            TabBarContainerView(selection: $tabSelection, userViewModel: userviewModel) {
 
-            DiscoMainView()
-                .ignoresSafeArea()
-                .tabBarItem(tab: .disco, selection: $tabSelection)
+                CreatePostView(viewModel: CreatePostViewModel())
+                    .ignoresSafeArea()
+                    .tabBarItem(tab: .create, selection: $tabSelection)
 
-            ProfileContentView()
-                .ignoresSafeArea()
-                .tabBarItem(tab: .profile, selection: $tabSelection)
+                DiscoTabView(selection: $discoselection)
+                    .ignoresSafeArea()
+                    .tabBarItem(tab: .disco, selection: $tabSelection)
 
-            NotificationView()
-                .ignoresSafeArea()
-                .tabBarItem(tab: .notifs, selection: $tabSelection)
+                ProfileContentTabView(user: sampleUser, navigationPath: .constant(NavigationPath()))
+                    .ignoresSafeArea()
+                    .tabBarItem(tab: .profile, selection: $tabSelection)
 
-            RadioView()
-                .ignoresSafeArea()
-                .tabBarItem(tab: .radio, selection: $tabSelection)
+                NotificationView()
+                    .ignoresSafeArea()
+                    .tabBarItem(tab: .notifs, selection: $tabSelection)
 
+                RadioView()
+                    .ignoresSafeArea()
+                    .tabBarItem(tab: .radio, selection: $tabSelection)
+
+            }
+            .environmentObject(tabBarState)
+            .environmentObject(postsViewModel) 
+            .environmentObject(engagementViewModel)
+            .environmentObject(userviewModel)
         }
-        .environmentObject(tabBarState)
     }
 }
 

@@ -9,6 +9,9 @@ import SwiftUI
 
 struct QuotePostView: View {
     var quote: Quote
+    var quotedPostViewModel: PostViewModel
+    var namespace: Namespace.ID
+    var onSelectPost: (PostViewModel) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -47,7 +50,12 @@ struct QuotePostView: View {
             }
             .padding(.bottom, 20)
             
-            PostView(viewModel: PostViewModel(post: quote.post, currentUser: mockCurrentUser))
+            PostView(
+                            viewModel: quotedPostViewModel,
+                            navigationPath: .constant(NavigationPath()),
+                            namespace: namespace,
+                            onSelectPost: onSelectPost
+                        )
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 18)
@@ -58,7 +66,20 @@ struct QuotePostView: View {
 
 let sampleQuote = Quote(post: samplePost, quotingUser: sampleUser, quoteText: "This is a sample quote. this post sucks ass im quoting your post just to let you know this shit sucks", timestamp: Date())
 
+struct QuotePostView_Previews: View {
+    @Namespace var previewNamespace
+
+    var body: some View {
+        QuotePostView(
+            quote: sampleQuote,
+            quotedPostViewModel: mockPostViewModel,
+            namespace: previewNamespace,
+            onSelectPost: { _ in }
+        )
+    }
+}
+
 
 #Preview {
-    QuotePostView(quote: sampleQuote)
+    QuotePostView_Previews()
 }

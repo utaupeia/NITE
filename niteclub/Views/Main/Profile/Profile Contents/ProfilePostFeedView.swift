@@ -6,27 +6,42 @@
 //
 
 import SwiftUI
-
+// MARK: this view will contain both posts (text / video / image) of the profiles user + reposts by this user,
 struct ProfilePostFeedView: View {
-    var posts: [PostViewModel] // Includes both posts and reposts
+    var allPosts: [PostViewModel] // Includes both posts and reposts
+    var user: User
+    @Namespace private var namespace
+    @State private var selectedPost: PostViewModel?
+
+    // Filter posts to only include those belonging to the specified user
+    var userSpecificPosts: [PostViewModel] {
+        allPosts.filter { $0.post.author.id == user.id }
+    }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 10) {
-                ForEach(posts, id: \.id) { viewModel in
-                    // We'll use the PostView you provided earlier to display each post
-                    PostView(viewModel: viewModel)
-                        .padding(.bottom)
+            VStack(alignment: .leading, spacing: 30) {
+                ForEach(userSpecificPosts, id: \.id) { viewModel in
+                    PostView(
+                        viewModel: viewModel,
+                        navigationPath: .constant(NavigationPath()),
+                        namespace: namespace,
+                        onSelectPost: { selectedViewModel in
+                            selectedPost = selectedViewModel
+                        }
+                    )
                 }
             }
             .padding()
+            .padding(.top, 30)
         }
     }
 }
+
 let textPostVM = PostViewModel(post: textPost, currentUser: mockCurrentUser)
 let imagePostVM = PostViewModel(post: imagePost, currentUser: mockCurrentUser)
 
 
 #Preview {
-    ProfilePostFeedView(posts: [textPostVM, imagePostVM])
+    ProfilePostFeedView(allPosts: [textPostVM, imagePostVM], user: sampleUser)
 }

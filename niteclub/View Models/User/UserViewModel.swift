@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class UserViewModel: ObservableObject {
-    @Published private var user: User
+    @Published var user: User
 
     // UI-related properties
     @Published var isLoading: Bool = false
@@ -25,7 +25,7 @@ class UserViewModel: ObservableObject {
     // For 'invitedBy' and 'link', I'm providing placeholders as it's unclear how these would be derived from the User model.
     var invitedBy: String { "OTHERUSER" }  // Modify to username of user
     var link: String { "www.website" }  // Optional entry from members
-    var selectedTheme: ThemeContent { user.selectedTheme }
+    var selectedTheme: Theme { user.selectedTheme }
 
     init(user: User) {
         self.user = user
@@ -43,6 +43,15 @@ class UserViewModel: ObservableObject {
             self.isLoading = false
         }
     }
+    
+    func toggleUserProfile(to newUser: User) {
+        self.user = newUser
+    }
+
+    func updateUser(_ newUser: User) {
+        user = newUser
+    }
+
 
     // MARK: User Actions
 
@@ -59,7 +68,7 @@ class UserViewModel: ObservableObject {
         self.user.profilePicture = newImageURL
     }
 
-    func updateSelectedTheme(_ theme: ThemeContent) {
+    func updateSelectedTheme(_ theme: Theme) {
         // Logic to update the user's theme
         self.user.selectedTheme = theme
     }

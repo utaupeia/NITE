@@ -1,0 +1,118 @@
+{
+  "identifier" : "BA55DE75",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "6473705456",
+      "localizations" : [
+        {
+          "description" : "Customize your experience",
+          "displayName" : "Themes",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "theme100",
+      "referenceName" : "Theme",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6473705651",
+    "_developerTeamID" : "AKGVY7RWYJ",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 723365498.61248803,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21419023",
+      "localizations" : [
+
+      ],
+      "name" : "Club Membership",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6473705648",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Become a Member of Niteclub",
+              "displayName" : "Membership",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "membership.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Membership",
+          "subscriptionGroupID" : "21419023",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

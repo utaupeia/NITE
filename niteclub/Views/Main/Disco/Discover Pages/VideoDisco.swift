@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VideoDisco: View {
-    @ObservedObject var viewModel = PostsViewModel()
+    @EnvironmentObject var viewModel: PostsViewModel // Access PostsViewModel from the environment
 
     var body: some View {
         ScrollView {
@@ -25,4 +25,6 @@ struct VideoDisco: View {
 
 #Preview {
     VideoDisco()
+        .environmentObject(PostsViewModel()) // Provide a PostsViewModel instance
+
 }

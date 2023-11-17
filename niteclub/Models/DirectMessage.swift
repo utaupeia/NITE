@@ -76,7 +76,7 @@ struct Conversation: Identifiable {
         self.lastMessageDate = lastMessageDate
     }
 
-    func getOtherUserTheme() -> ThemeContent? {
+    func getOtherUserTheme() -> Theme? {
         // Find the other user in the conversation
         let otherUser = participants.first { $0.id != currentUserId }
 

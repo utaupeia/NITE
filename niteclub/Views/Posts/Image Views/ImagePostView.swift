@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ImagePostView: View {
     @ObservedObject var viewModel: PostViewModel
-    
+    @EnvironmentObject var postsViewModel: PostsViewModel
+
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 0) {
             
             ZStack(alignment: .topLeading) {
                 
@@ -32,28 +33,49 @@ struct ImagePostView: View {
                 }
                 .cornerRadius(12)
                 
-                Image(viewModel.post.author.profilePicture)
-                    .resizable()
-                    .frame(width: 36, height: 60)
-                    .cornerRadius(6)
-                    .padding(9)
+                Button(action: {
+                    // This assumes that your Post has a reference to the user who created it
+                    withAnimation(.spring) {
+                        postsViewModel.selectUser(viewModel.post.author)
+                    }
+                }) {
+                    Image(viewModel.post.author.profilePicture)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 36, height: 60)
+                        .cornerRadius(6)
+                        .padding(9)
+                        .clipped()
+
+                }
             }
                 
                 HStack {
-                    Text(viewModel.post.author.username)
-                        .font(.system(size: 13))
-                        .fontWeight(.bold)
+                    Button(action: {
+                        // This assumes that your Post has a reference to the user who created it
+                        withAnimation(.spring) {
+                            postsViewModel.selectUser(viewModel.post.author)
+                        }
+                    }) {
+                        Text(viewModel.post.author.username)
+                            .font(.system(size: 13))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white.opacity(0.75))
+                            .padding(.top, 6)
+                    }
                     Spacer()
                     Text(viewModel.time)
                         .font(.system(size: 10))
                         .foregroundColor(.gray)
                 }
-                .padding(.horizontal, 6)
+                .padding(.horizontal, 9)
                 
                 if let caption = viewModel.post.textContent {  // Safely unwrap the optional caption
                     Text(caption)
                         .font(.system(size: 15))
                         .padding(.horizontal, 6)
+                        .foregroundColor(.white)
+                        .padding(.top, 3)
 
                 }
             }

@@ -25,6 +25,8 @@ struct TabBarContainerView<Content:View>: View {
     
     @EnvironmentObject var tabBarState: TabBarState
     @ObservedObject var userViewModel: UserViewModel  // Your view model
+    
+    @State private var selectedUserViewModel: UserViewModel?
 
 //    let partyScreen = PartyScreen()
     
@@ -46,35 +48,10 @@ struct TabBarContainerView<Content:View>: View {
     @State private var showUserProfile: Bool = false
     //
     @State private var followOverlay: Bool = false
-    private var blurView: some View {
-        let blurHeight: CGFloat
-        let blurCornerRadius: CGFloat
-        let blurHorizontalPadding: CGFloat
-        let blurOpacity: Double
-        switch selection {
-        case .profile:
-            blurHeight = partialCover ? .infinity : 155
-            blurCornerRadius = 45
-            blurHorizontalPadding = partialCover ? 0 : 15
-            blurOpacity = 0.75
-        case .disco:
-            blurHeight = showUserProfile ? 240 : 66
-            blurCornerRadius = 45
-            blurHorizontalPadding = 15
-            blurOpacity = 0.75
-        default:
-            blurHeight = 66
-            blurCornerRadius = 45
-            blurHorizontalPadding = 15
-            blurOpacity = 0.75
-        }
-        return Blur(style: .dark)
-            .frame(height: blurHeight)
-            .frame(maxWidth: .infinity)
-            .cornerRadius(blurCornerRadius)
-            .padding(.horizontal, blurHorizontalPadding)
-            .opacity(blurOpacity)
-    }
+
+    @State private var selectedUser: User?
+    @EnvironmentObject var postsViewModel: PostsViewModel
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -87,6 +64,15 @@ struct TabBarContainerView<Content:View>: View {
                     VStack {
                         Spacer()
                         VStack(spacing: 0) {
+                            
+                            if selection == .disco {
+                                // Display the profile elements for the selected user
+                                if let selectedUser = postsViewModel.selectedUser {
+                                    ProfileElements(viewModel: UserViewModel(user: selectedUser), followsOverlay: $followOverlay)
+                                        .padding(.vertical, 12)
+                                }
+                            }
+                            
                             if selection == .profile {
                                 ProfileElements(viewModel: userViewModel, followsOverlay: $followOverlay)
                                     .padding(.vertical, 12)
@@ -236,6 +222,7 @@ struct containersample_Previews: PreviewProvider {
             Color.gray
         }
         .environmentObject(TabBarState())
+        .environmentObject(PostsViewModel())
     }
 }
 

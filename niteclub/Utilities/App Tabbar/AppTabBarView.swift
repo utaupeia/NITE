@@ -12,6 +12,8 @@ struct AppTabBarView: View {
     @State private var tabSelection: TabBarItem = .profile
     @StateObject private var tabBarState = TabBarState()
     @StateObject var userviewModel = UserViewModel(user: sampleUser)
+    @State private var discoselection = 0 // This will be passed to DiscoTabView
+    @StateObject private var postsViewModel = PostsViewModel()
 
     var body: some View {
         
@@ -21,11 +23,11 @@ struct AppTabBarView: View {
                 .ignoresSafeArea()
                 .tabBarItem(tab: .create, selection: $tabSelection)
 
-            DiscoMainView()
+            DiscoTabView(selection: $discoselection)
                 .ignoresSafeArea()
                 .tabBarItem(tab: .disco, selection: $tabSelection)
 
-            ProfileContentView()
+            ProfileContentTabView(user: sampleUser, navigationPath: .constant(NavigationPath()))
                 .ignoresSafeArea()
                 .tabBarItem(tab: .profile, selection: $tabSelection)
 
@@ -39,6 +41,8 @@ struct AppTabBarView: View {
 
         }
         .environmentObject(tabBarState)
+        .environmentObject(postsViewModel) // PostsViewModel to DiscoTabView + Children
+
     }
 }
 

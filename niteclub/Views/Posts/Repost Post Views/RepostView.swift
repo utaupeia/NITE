@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RepostView: View {
     @ObservedObject var viewModel: PostViewModel
-    
+    @State private var selectedPostIndex: Int?
+
     var body: some View {
         VStack(alignment: .leading,spacing: 0) {
             HStack {
@@ -20,7 +21,7 @@ struct RepostView: View {
             }
             .padding(3)
 
-            PostView(viewModel: PostViewModel(post: quote.post, currentUser: mockCurrentUser))
+            PostView(viewModel: PostViewModel(post: quote.post, currentUser: mockCurrentUser), navigationPath: .constant(NavigationPath()))
         }
         .padding()
         .cornerRadius(8)

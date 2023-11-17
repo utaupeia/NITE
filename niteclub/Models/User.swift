@@ -15,7 +15,7 @@ enum UserStatus: String, Codable {
     case admin           // user with administrative privileges
 }
 
-struct User: Identifiable, Equatable {
+struct User: Identifiable, Equatable, Hashable {
     
     // Define the equality operator for instances of the User type.
     static func == (lhs: User, rhs: User) -> Bool {
@@ -25,6 +25,10 @@ struct User: Identifiable, Equatable {
         return lhs.id == rhs.id
     }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id) // Use the 'id' property for hashing
+    }
+
     var status: UserStatus  // new property for the User's Status [ default / member / foreverMember / admin ]
     
     var id: UUID
@@ -39,20 +43,26 @@ struct User: Identifiable, Equatable {
     var location: String  // This could also be a custom 'Location' type if you need more detail
     var likedPosts: [Post] /*= []*/ // Posts that the user has liked.
 
-    // verified
+    // closeFriends [] mutual following / follower relationship, electively added to friends list
+    // createdThemes / themes user has created
+    // isVerified / Bool
     // birthdate
     // email
-    // invited by what user
-    // account number
-    // routing number
-    // date joined
-    // location (should be State from ID scan)
-    // gender (from ID scan)
-    // link
-    
-    // followsYou
-    // isBlocked
-    // has notifications ON
+    // invited by / which user invite code was used to join app if any
+    // first name
+    // last name
+    // account number / only needed for theme creation
+    // routing number / only needed for theme creation
+    // gender ()
+    // websiteURL / added website from user
+    // postsCreated
+    // commentsMade / all comments made on others posts
+    // lastActive / last date active
+    // likedSongs / songs user has liked
+    // followsYou / user relationship
+    // isBlocked / is user blocked by
+    // blockedUsers / users that have been blocked
+    // has notifications turned on
     
     
     // Initializer

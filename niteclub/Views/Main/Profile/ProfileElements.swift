@@ -26,10 +26,11 @@ struct ProfileElements: View {
                                 }) {
                                     Image(viewModel.profilePicture)
                                         .resizable()
-    //                                    .matchedGeometryEffect(id: "profileImage", in: animation)
+                                        .scaledToFill()
                                         .frame(width: 42, height: 70)
                                         .cornerRadius(6)
                                         .padding(.horizontal, 15)
+                                        .clipped()
                                 }
                                 
                                 VStack(alignment: .leading, spacing: 0) {

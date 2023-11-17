@@ -9,6 +9,7 @@ import SwiftUI
 
 struct QuotePostView: View {
     var quote: Quote
+    @State private var selectedPostIndex: Int?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -47,7 +48,7 @@ struct QuotePostView: View {
             }
             .padding(.bottom, 20)
             
-            PostView(viewModel: PostViewModel(post: quote.post, currentUser: mockCurrentUser))
+            PostView(viewModel: PostViewModel(post: quote.post, currentUser: mockCurrentUser), navigationPath: .constant(NavigationPath()))
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 18)

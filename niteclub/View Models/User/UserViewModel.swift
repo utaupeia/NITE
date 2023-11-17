@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class UserViewModel: ObservableObject {
-    @Published private var user: User
+    @Published var user: User
 
     // UI-related properties
     @Published var isLoading: Bool = false
@@ -43,6 +43,15 @@ class UserViewModel: ObservableObject {
             self.isLoading = false
         }
     }
+    
+    func toggleUserProfile(to newUser: User) {
+        self.user = newUser
+    }
+
+    func updateUser(_ newUser: User) {
+        user = newUser
+    }
+
 
     // MARK: User Actions
 

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Quote: Identifiable {
+struct Quote: Identifiable, Codable {
     var id: UUID
     var post: Post  // Reference to the original post
     var quotingUser: User  // User who created the quote

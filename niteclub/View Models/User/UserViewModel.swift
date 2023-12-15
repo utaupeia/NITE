@@ -26,6 +26,8 @@ class UserViewModel: ObservableObject {
     var invitedBy: String { "OTHERUSER" }  // Modify to username of user
     var link: String { "www.website" }  // Optional entry from members
     var selectedTheme: ThemeContent { user.selectedTheme }
+    
+    private var fetchUser: AnyCancellable?
 
     init(user: User) {
         self.user = user
@@ -34,14 +36,27 @@ class UserViewModel: ObservableObject {
     // MARK: Data Fetching
 
     func fetchUserData() {
+        guard !isLoading else { return }
+        
         isLoading = true
         // Here, you would implement the actual data fetching from a server or local database.
         // For now, I'll simulate a data fetch with a delay.
-        DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
-            // Simulate data update
-            self.user.username += " Updated"
-            self.isLoading = false
-        }
+        fetchUser = UserRepository.getUser()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                self?.isLoading = false
+                switch completion {
+                case .finished: break
+                case .failure(let failure): print(failure.localizedDescription)
+                }
+            }, receiveValue: { [weak self] item in
+                self?.user = item.result
+            })
+//        DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+//            // Simulate data update
+//            self.user.username += " Updated"
+//            self.isLoading = false
+//        }
     }
     
     func toggleUserProfile(to newUser: User) {

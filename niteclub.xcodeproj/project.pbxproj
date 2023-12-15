@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		668C424D2B2C5237008AD281 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C424C2B2C5237008AD281 /* NetworkService.swift */; };
+		668C42502B2C5754008AD281 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C424F2B2C5754008AD281 /* UserRepository.swift */; };
+		668C42522B2C6CD6008AD281 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C42512B2C6CD6008AD281 /* ResponseModel.swift */; };
 		F957138F2AE3418E005785EF /* niteclubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F957138E2AE3418E005785EF /* niteclubApp.swift */; };
 		F95713912AE3418E005785EF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95713902AE3418E005785EF /* ContentView.swift */; };
 		F95713932AE3418E005785EF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95713922AE3418E005785EF /* Item.swift */; };
@@ -102,6 +105,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		668C424C2B2C5237008AD281 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkService.swift; path = ../../../../Desktop/NetworkService.swift; sourceTree = "<group>"; };
+		668C424F2B2C5754008AD281 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		668C42512B2C6CD6008AD281 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		F957138B2AE3418E005785EF /* niteclub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = niteclub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F957138E2AE3418E005785EF /* niteclubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = niteclubApp.swift; sourceTree = "<group>"; };
 		F95713902AE3418E005785EF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -208,6 +214,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		668C424A2B2C5212008AD281 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				668C424C2B2C5237008AD281 /* NetworkService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		668C424E2B2C5735008AD281 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				668C424F2B2C5754008AD281 /* UserRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 		F95713822AE3418E005785EF = {
 			isa = PBXGroup;
 			children = (
@@ -236,7 +258,8 @@
 				F95713BE2AE3428E005785EF /* Views */,
 				F95713BC2AE34279005785EF /* View Models */,
 				F9C2650D2AEA228200C9D05C /* Utilities */,
-				F9C2650E2AEA229300C9D05C /* Service */,
+				668C424E2B2C5735008AD281 /* Repositories */,
+				668C424A2B2C5212008AD281 /* Service */,
 				F95713972AE34191005785EF /* Preview Content */,
 				F957138E2AE3418E005785EF /* niteclubApp.swift */,
 				F95713902AE3418E005785EF /* ContentView.swift */,
@@ -286,6 +309,7 @@
 				F9C265042AEA0CB100C9D05C /* Theme.swift */,
 				F9C265082AEA0DDC00C9D05C /* DirectMessage.swift */,
 				F9C2650A2AEA120900C9D05C /* Notifications.swift */,
+				668C42512B2C6CD6008AD281 /* ResponseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -411,13 +435,6 @@
 				F9C2650F2AEA22B400C9D05C /* Formatters */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		F9C2650E2AEA229300C9D05C /* Service */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		F9C2650F2AEA22B400C9D05C /* Formatters */ = {
@@ -817,6 +834,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9C2650B2AEA120900C9D05C /* Notifications.swift in Sources */,
+				668C424D2B2C5237008AD281 /* NetworkService.swift in Sources */,
 				F9C265512AEB8A4300C9D05C /* TabBarPreferenceKey.swift in Sources */,
 				F9E7556E2AF1A66000D168E9 /* ProfilePostFeedView.swift in Sources */,
 				F9C265632AEB92A600C9D05C /* DiscoHub.swift in Sources */,
@@ -861,8 +879,10 @@
 				F95713D02AE35135005785EF /* VideoPostViewModel.swift in Sources */,
 				F9E502672AEC8F5400C47609 /* UserViewModel.swift in Sources */,
 				F9C265592AEB8B8B00C9D05C /* NotificationView.swift in Sources */,
+				668C42522B2C6CD6008AD281 /* ResponseModel.swift in Sources */,
 				F9C265572AEB8B7500C9D05C /* ProfileContentView.swift in Sources */,
 				F96D03ED2AE5BDFB00025512 /* GridItemView.swift in Sources */,
+				668C42502B2C5754008AD281 /* UserRepository.swift in Sources */,
 				F9C265552AEB8B4800C9D05C /* DiscoMainView.swift in Sources */,
 				F9C2652B2AEB667700C9D05C /* StoryViewModel.swift in Sources */,
 				F95713EC2AE4DF8F005785EF /* testing.swift in Sources */,

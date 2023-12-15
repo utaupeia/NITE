@@ -15,7 +15,7 @@ enum UserStatus: String, Codable {
     case admin           // user with administrative privileges
 }
 
-struct User: Identifiable, Equatable, Hashable {
+struct User: Identifiable, Equatable, Hashable, Codable {
     
     // Define the equality operator for instances of the User type.
     static func == (lhs: User, rhs: User) -> Bool {
@@ -79,6 +79,23 @@ struct User: Identifiable, Equatable, Hashable {
         self.dateJoined = dateJoined
         self.location = location
         self.likedPosts = likedPosts
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.status = try container.decodeIfPresent(UserStatus.self, forKey: .status) ?? UserStatus.member
+        let intId = try container.decode(Int.self, forKey: .id)
+        self.id = UUID.init(uuidString: "\(intId)") ?? UUID()
+        self.username = try container.decode(String.self, forKey: .username)
+        self.profilePicture = try container.decode(String.self, forKey: .profilePicture)
+        self.following = try container.decodeIfPresent([UUID].self, forKey: .following) ?? []
+        self.followers = try container.decodeIfPresent([UUID].self, forKey: .followers) ?? []
+        self.lurking = try container.decodeIfPresent(Int.self, forKey: .lurking) ?? 0
+        self.acquiredThemes = try container.decodeIfPresent([ThemeContent].self, forKey: .acquiredThemes) ?? []
+        self.selectedTheme = try container.decodeIfPresent(ThemeContent.self, forKey: .selectedTheme) ?? themeContent
+        self.dateJoined = try container.decodeIfPresent(Date.self, forKey: .dateJoined) ?? Date()
+        self.location = try container.decodeIfPresent(String.self, forKey: .location) ?? "Lokation unknown"
+        self.likedPosts = try container.decodeIfPresent([Post].self, forKey: .likedPosts) ?? []
     }
     
     

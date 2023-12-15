@@ -11,24 +11,30 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
-
+    
+    @StateObject private var userViewModel = UserViewModel(user: user)
         @State private var navigationPath = NavigationPath()
 
         var body: some View {
             NavigationStack(path: $navigationPath) {
-                VStack {
-                    Button("Go to Details View") {
-                        navigationPath.append("DetailsView")
-                    }
-                }
-                .navigationDestination(for: String.self) { identifier in
-                    switch identifier {
-                    case "DetailsView":
-                        DetailsView(navigationPath: $navigationPath)
-                    default:
-                        Text("Unknown destination")
-                    }
-                }
+                UserCard(viewModel: userViewModel, dateToDisplay: Date())
+                    .transformEffect(CGAffineTransform(scaleX: 1.5, y: 1.5))
+                    .onAppear(perform: {
+                        userViewModel.fetchUserData()
+                    })
+//                VStack {
+//                    Button("Go to Details View") {
+//                        navigationPath.append("DetailsView")
+//                    }
+//                }
+//                .navigationDestination(for: String.self) { identifier in
+//                    switch identifier {
+//                    case "DetailsView":
+//                        DetailsView(navigationPath: $navigationPath)
+//                    default:
+//                        Text("Unknown destination")
+//                    }
+//                }
             }
         }
     }

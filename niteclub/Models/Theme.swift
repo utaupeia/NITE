@@ -8,7 +8,7 @@
 import Foundation
 
 // The actual content of a theme, which might be an image, video, or other multimedia.
-struct Theme {
+struct Theme: Codable {
     // Depending on your implementation, this might include URLs to media files,
     // binary data, or references to assets within your system.
     // For simplicity, we're using a string, likely a URL.
@@ -16,7 +16,7 @@ struct Theme {
 }
 
 // A structure representing a theme that users can purchase and use.
-struct ThemeContent: Identifiable, Equatable {
+struct ThemeContent: Identifiable, Equatable, Codable {
     var id: UUID
     var name: String?
     var content: Theme  // Assuming 'Theme' is another struct you've defined
@@ -25,6 +25,10 @@ struct ThemeContent: Identifiable, Equatable {
     var authorId: UUID?  // The ID of the author
     var purchasers: [UUID]  // IDs of users who have purchased the theme
     var approved: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, content, price, creationDate, authorId, purchasers, approved
+    }
 
     // Initializer
     init(id: UUID = UUID(), name: String?, content: Theme, price: Double, creationDate: Date, authorId: UUID? = nil, approved: Bool = false) {
@@ -36,6 +40,22 @@ struct ThemeContent: Identifiable, Equatable {
         self.authorId = authorId
         self.purchasers = []
         self.approved = approved
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        content = try container.decode(Theme.self, forKey: .content)
+        price = try container.decode(Double.self, forKey: .price)
+        creationDate = try container.decode(Date.self, forKey: .creationDate)
+        authorId = try container.decodeIfPresent(UUID.self, forKey: .authorId)
+        purchasers = try container.decode([UUID].self, forKey: .purchasers)
+        approved = try container.decode(Bool.self, forKey: .approved)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
     }
 
     // ... other methods ...

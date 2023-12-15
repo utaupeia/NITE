@@ -15,7 +15,7 @@ import SwiftUI
 
 // If you're going to decode/encode the Post class from/to JSON, you should make it Codable.
 // ObservableObject is used to observe instance of this class in SwiftUI.
-class Post: Identifiable, ObservableObject {
+class Post: Identifiable, ObservableObject, Codable {
     var id: UUID
     var author: User  // This 'User' class also needs to be Codable if 'Post' is Codable.
     var timestamp: Date
@@ -33,6 +33,9 @@ class Post: Identifiable, ObservableObject {
 //    enum CodingKeys: String, CodingKey {
 //        case id, author, timestamp, type, socialInteractions
 //    }
+    enum CodingKeys: String, CodingKey {
+        case id, author, timestamp, socialInteractions
+    }
 
     // Regular initializer (not part of Codable)
     init(id: UUID = UUID(), author: User, timestamp: Date, textContent: String?, images: [String]?, videos: [String]?, socialInteractions: SocialInteractionsManager, repostedBy: User? = nil) {
@@ -45,6 +48,19 @@ class Post: Identifiable, ObservableObject {
         self.socialInteractions = socialInteractions
         self.repostedBy = repostedBy
     }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        author = try container.decode(User.self, forKey: .author)
+        timestamp = try container.decode(Date.self, forKey: .timestamp)
+        socialInteractions = try container.decode(SocialInteractionsManager.self, forKey: .socialInteractions)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+    }
+    
 }
 extension Post {
     enum PostType: String, Codable {
@@ -71,7 +87,7 @@ extension Post {
 
 
 // Your SocialInteractionsManager and User classes or structs should also conform to Codable.
-class SocialInteractionsManager {
+class SocialInteractionsManager: Codable {
     var comments: [Comment]
     var likes: [User]
     var reposts: [User]
@@ -117,6 +133,14 @@ class SocialInteractionsManager {
 //    // Interact with the post's social features.
 //    newPost.socialInteractions.addComment(someComment)
 //    newPost.socialInteractions.addQuote(someQuote)
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.comments = try container.decode([Comment].self, forKey: .comments)
+        self.likes = try container.decode([User].self, forKey: .likes)
+        self.reposts = try container.decode([User].self, forKey: .reposts)
+        self.quotes = try container.decode([Quote].self, forKey: .quotes)
+    }
 
 }
 

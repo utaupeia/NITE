@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Comment: Identifiable {
+struct Comment: Identifiable, Codable {
     var id: UUID
     var author: User // Renamed from 'user'
     var text: String // Renamed from 'caption'

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		668C424D2B2C5237008AD281 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C424C2B2C5237008AD281 /* NetworkService.swift */; };
+		664EC0112B2C942900EE7166 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664EC0102B2C942900EE7166 /* NetworkService.swift */; };
 		668C42502B2C5754008AD281 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C424F2B2C5754008AD281 /* UserRepository.swift */; };
 		668C42522B2C6CD6008AD281 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C42512B2C6CD6008AD281 /* ResponseModel.swift */; };
 		F957138F2AE3418E005785EF /* niteclubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F957138E2AE3418E005785EF /* niteclubApp.swift */; };
@@ -105,7 +105,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		668C424C2B2C5237008AD281 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkService.swift; path = ../../../../Desktop/NetworkService.swift; sourceTree = "<group>"; };
+		664EC0102B2C942900EE7166 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		668C424F2B2C5754008AD281 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		668C42512B2C6CD6008AD281 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		F957138B2AE3418E005785EF /* niteclub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = niteclub.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,12 +214,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		668C424A2B2C5212008AD281 /* Service */ = {
+		664EC00F2B2C941300EE7166 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				668C424C2B2C5237008AD281 /* NetworkService.swift */,
+				664EC0102B2C942900EE7166 /* NetworkService.swift */,
 			);
-			path = Service;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		668C424E2B2C5735008AD281 /* Repositories */ = {
@@ -259,7 +259,7 @@
 				F95713BC2AE34279005785EF /* View Models */,
 				F9C2650D2AEA228200C9D05C /* Utilities */,
 				668C424E2B2C5735008AD281 /* Repositories */,
-				668C424A2B2C5212008AD281 /* Service */,
+				664EC00F2B2C941300EE7166 /* Services */,
 				F95713972AE34191005785EF /* Preview Content */,
 				F957138E2AE3418E005785EF /* niteclubApp.swift */,
 				F95713902AE3418E005785EF /* ContentView.swift */,
@@ -834,7 +834,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9C2650B2AEA120900C9D05C /* Notifications.swift in Sources */,
-				668C424D2B2C5237008AD281 /* NetworkService.swift in Sources */,
 				F9C265512AEB8A4300C9D05C /* TabBarPreferenceKey.swift in Sources */,
 				F9E7556E2AF1A66000D168E9 /* ProfilePostFeedView.swift in Sources */,
 				F9C265632AEB92A600C9D05C /* DiscoHub.swift in Sources */,
@@ -892,6 +891,7 @@
 				F957138F2AE3418E005785EF /* niteclubApp.swift in Sources */,
 				F9E755952B05A81F00D168E9 /* MainScreen.swift in Sources */,
 				F9C2654D2AEB89EF00C9D05C /* TabBarItem.swift in Sources */,
+				664EC0112B2C942900EE7166 /* NetworkService.swift in Sources */,
 				F95713E82AE4D378005785EF /* CreatePostView.swift in Sources */,
 				F9E755782AF1B8C800D168E9 /* RepostView.swift in Sources */,
 				F95713C22AE34380005785EF /* Post.swift in Sources */,

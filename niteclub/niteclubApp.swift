@@ -7,12 +7,13 @@
 
 import SwiftUI
 import SwiftData
+// Import any other necessary modules
 
 @main
 struct niteclubApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Item.self, // Add other models as needed
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,9 +26,11 @@ struct niteclubApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-//                .environmentObject(SessionManager.shared)
+            AppTabBarView()
+                // You can pass environment objects here if needed
+                .environmentObject(SessionManager.shared) // Uncomment if you need to use SessionManager
+                // Add other environment objects as required
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(sharedModelContainer) // Make sure this is correctly configured
     }
 }

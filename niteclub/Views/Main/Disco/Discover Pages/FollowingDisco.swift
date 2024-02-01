@@ -6,26 +6,37 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct FollowingDisco: View {
     @EnvironmentObject var viewModel: PostsViewModel
-    @Binding var navigationPath: NavigationPath
-    @State private var selectedPostIndex: Int?
+    @EnvironmentObject var storiesViewModel: StoriesViewModel
+    @EnvironmentObject var sharedStoryState: SharedStoryState
+
+    @State private var navigationPath = NavigationPath()
     @Namespace private var namespace
     @EnvironmentObject var sharedViewModel: SharedViewModel
-
-    var body: some View {
-        ZStack {
-            ScrollView {
+    
+    @State private var selectedPostIndex: Int?
+    
+    var body: some View {    
+        NavigationStack(path: $navigationPath) {
+            
+            ZStack {
+                ScrollView {
+                    
                     VStack(spacing: 24) {
+                        StoriesScrollView(storiesViewModel: storiesViewModel, sharedStoryState: sharedStoryState)
+
                         ForEach(viewModel.postViewModels.indices, id: \.self) { index in
                             PostView(
-                                viewModel: viewModel.postViewModels[index],
+                                viewModel: viewModel.postViewModels[index], 
+                                postsVM: viewModel, // new
                                 navigationPath: $navigationPath,
                                 namespace: namespace,
                                 onSelectPost: { selectedViewModel in
                                     withAnimation(.spring()) {
-                                    sharedViewModel.selectedPost = selectedViewModel
+                                        sharedViewModel.selectedPost = selectedViewModel
                                     }
                                 }
                             )
@@ -33,14 +44,15 @@ struct FollowingDisco: View {
                     }
                     .padding(.top, 40)
                 }
-            .padding(.horizontal, 6)
+                .padding(.horizontal, 6)
+            }
         }
     }
 }
 
-
 #Preview {
-    FollowingDisco(navigationPath: .constant(NavigationPath()))
+    FollowingDisco()
         .environmentObject(PostsViewModel()) // Provide a PostsViewModel instance
-
+        .environmentObject(StoriesViewModel(stories: SampleData.sampleStories, currentUser: SampleData.userJohn))
+        .environmentObject(SharedStoryState())
 }

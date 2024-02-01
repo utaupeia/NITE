@@ -123,7 +123,7 @@ struct MainView: View {
             }
             .foregroundColor(.white)
             .padding(30)
-            .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
+//            .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
             
             Spacer()
             
@@ -135,7 +135,7 @@ struct MainView: View {
             }
             .foregroundColor(.white)
             .padding(30)
-            .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
+//            .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
         }
         .offset(y: offset) // Apply the offset here
     }

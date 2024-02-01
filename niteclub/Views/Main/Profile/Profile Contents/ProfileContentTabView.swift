@@ -6,73 +6,109 @@
 //
 
 import SwiftUI
+import AVKit
+
+//MARK: HOW TO NAVIGATE TO THIS         ProfileContentTabView(user: getUserByID(userID), navigationPath: $navigationPath)
 
 struct ProfileContentTabView: View {
     var user: User
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var postsViewModel: PostsViewModel
     @Binding var navigationPath: NavigationPath
-
+    
     var userSpecificPosts: [PostViewModel] {
         postsViewModel.postViewModels.filter { $0.post.author.id == user.id }
     }
-
+    
     let columns: [GridItem] = [
         GridItem(.flexible(),spacing: nil, alignment: nil),
     ]
+    @State private var showExtras = false
+    @State private var showSettings = false
     
     @State private var isPlaying = false
     @State private var postText: String = "Sample Text"
-    @State private var selectedTabIndex: Int = 0
-    let tabTitles = ["feed", "pics", "vids", "themes", "likes"]
+    @State private var selectedIndex = 0
+
+    let titles = ["feed", "pics", "vids", "themes", "likes"]
     @State private var showLikes = false
     
-    
+    @State private var blurHeight: CGFloat = 100
+    @State private var isExpanded: Bool = false
+    var maxHeight: CGFloat = UIScreen.main.bounds.height
+
+    @Namespace private var tabAnimation
+
     var body: some View {
         ZStack {
-            SelectedThemeView(user: user)
-
+            SelectedThemeView(viewModel: userViewModel)
+            
             ZStack(alignment: .top) {
-               
                 
-                TabView(selection: $selectedTabIndex) {
-                    ProfilePostFeedView(allPosts: postsViewModel.postViewModels, user: user)
+                TabView(selection: $selectedIndex) {
+                    ProfilePostFeedView(allPosts: postsViewModel.postViewModels, user: user, navigationPath: $navigationPath)
                         .tag(0)
-                    ProfileImageContentView(user: SampleData.userRickkw, allImagePosts: postsViewModel.postViewModels)
+                    ProfileImageContentView(user: user, allImagePosts: postsViewModel.postViewModels)
                         .tag(1)
-                    ProfileVideoContentView(user: sampleUser, allVideoPosts: postsViewModel.postViewModels)
+                    ProfileVideoContentView(
+                        user: user,
+                        navigationPath: $navigationPath
+                    )
                         .tag(2)
-                    ProfileThemeView(user: sampleUser)
+                    ProfileThemeView(user: user)
                         .tag(3)
-                    LikedPostsView(likedPosts: [samplePost], user: sampleUser)
+                    LikedPostsView(likedPosts: [samplePost], user: user)
                         .tag(4)
                 }
+                .environmentObject(postsViewModel)
+
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 
-                ProfileTabBar(titles: tabTitles, selectedIndex: $selectedTabIndex)
-                    .padding(.top, 60)
-                
-                HStack {
-                    if user.id != userViewModel.user.id {
-                        
-                    backButton
-                        
-                    Spacer()
-                    
-                    followButton
-                    
-                                        }
-
-                }
-                .padding(.top, 60)
+                navBar
 
             }
-            
-//            topContent()
-                .foregroundColor(.white)
         }
         .ignoresSafeArea()
         .navigationBarBackButtonHidden(true)
+    }
+    var navBar: some View {
+        VStack {
+            ZStack(alignment: .top)  {
+                
+                VariableBlurView()
+                
+                if userViewModel.user?.id == user.id {
+                    HStack(spacing: 0) {
+                        Spacer()
+                        profileTabBar
+                        Spacer()
+                    }
+                    .padding(.top, 60)
+                } else {
+                    HStack(spacing: 0) {
+                        backButton
+                        
+                        profileTabBar
+
+                        Spacer()
+                        
+                        FollowButton(userViewModel: userViewModel, otherUser: user)
+
+                        SettingsButton(showSettings: $showSettings)
+                    }
+                    .padding(.top, 60)
+                }
+                   
+                    if isExpanded {
+                        
+                    }
+                
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: blurHeight)
+            Spacer()
+        }
     }
     
     var backButton: some View {
@@ -84,92 +120,41 @@ struct ProfileContentTabView: View {
                 if !navigationPath.isEmpty {
                     navigationPath.removeLast()
                 }
+                presentationMode.wrappedValue.dismiss()
+
             }
         }) {
             Image(systemName: "chevron.backward")
-                .padding(12)
-                .background(
-                    Blur(style: .dark)
-                        .cornerRadius(24)
+                .resizable()
+                .frame(width: 12, height: 12)
+                .foregroundColor(.white)
+                .padding(.vertical, 6)
+                .padding(.horizontal, 18)
+                .overlay(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(.white.opacity(0.25), lineWidth: 1)
                 )
-        }
-        .padding()
-
-    }
-    
-    var backButton2: some View {
-        Button(action: {
-            withAnimation(.spring()) {
-                
-            }
-        }) {
-            Image(systemName: "chevron.backward")
-                .background(
-                    Blur(style: .dark)
-                        .frame(width: 30, height: 30)
-                        .cornerRadius(24)
-                )
-        }
-        .padding()
-
-    }
-    var followButton: some View {
-        Button(action: {
-            withAnimation(.spring()) {
-
-            }
-        }) {
-            Text("follow")
-                .font(.system(size: 12))
-                .background(
-                    Blur(style: .dark)
-                        .frame(width: 80, height: 30)
-                        .cornerRadius(24)
-                )
-                .padding()
+                .padding(.vertical, 3)
+                .padding(.horizontal, 15)
         }
     }
-
-}
-
-struct ProfileTabBar: View {
-    let titles: [String]
-    @Binding var selectedIndex: Int
-    @Namespace private var tabAnimation // Namespace for the animation
-    var body: some View {
+    var profileTabBar: some View {
         ScrollViewReader { reader in
             HStack(spacing: 6) { // Adjust spacing as needed
-                ForEach(Array(titles.enumerated()), id: \.offset) { index, title in
-                    ZStack {
-                        // This view represents the unselected state
-                        if index != selectedIndex {
-                            Circle()
-                                .fill(Color.white.opacity(0.5))
-                                .matchedGeometryEffect(id: "tab\(index)", in: tabAnimation, properties: .frame, anchor: .center, isSource: true)
-                                .frame(width: 4, height: 4)
-                        }
-                        // This view represents the selected state
-                        if index == selectedIndex {
-                            Text(title)
-                                .fontWeight(.regular)
-                                .foregroundColor(.white)
-                                .matchedGeometryEffect(id: "tab\(index)", in: tabAnimation, properties: .frame, anchor: .center, isSource: false)
-                                .font(.system(size: 13))
-                        }
-                    }
-                    .onTapGesture {
+                ForEach(titles.indices, id: \.self) { index in
+                    Button(action: {
                         withAnimation(.spring()) {
                             selectedIndex = index
-                            reader.scrollTo(index, anchor: .center) // Scroll to the selected item
                         }
+                    }) {
+                        
+                        RoundedRectangle(cornerRadius: 24)
+                            .fill(selectedIndex == index ? Color.white : Color.gray)
+                            .frame(width: selectedIndex == index ? 30 : 10, height: 5)
+                            .matchedGeometryEffect(id: "tab\(index)", in: tabAnimation)
                     }
                 }
-            }
-            .padding([.leading, .trailing], 20) // Adjust padding as needed
-            .onChange(of: selectedIndex) { [selectedIndex] in
-                withAnimation(.spring()) {
-                    reader.scrollTo(selectedIndex, anchor: .center)
-                }
+                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0), value: selectedIndex)
             }
         }
     }
@@ -178,5 +163,5 @@ struct ProfileTabBar: View {
 #Preview {
     ProfileContentTabView(user: SampleData.userJohn, navigationPath: .constant(NavigationPath()))
         .environmentObject(PostsViewModel())
-        .environmentObject(UserViewModel(user: SampleData.userJohn))
+        .environmentObject(UserViewModel())
 }

@@ -13,93 +13,110 @@ struct UserCard: View {
     let cardBackgroundHeight: CGFloat = 130
     var dateToDisplay: Date
 
+    @Binding var navigationPath: NavigationPath
+    var onTap: () -> Void // Closure to be called on tap
+
     var body: some View {
-        ZStack {
-            Image(viewModel.selectedTheme.content.themeURL)
-                .resizable()
-                .scaledToFill()
-                .frame(width: cardBackgroundWidth)
-                .frame(height: cardBackgroundHeight)
-                .clipped()
-                .cornerRadius(21.0)
-            
-            Blur(style: .regular)
-                .frame(width: cardBackgroundWidth - 12)
-                .frame(height: cardBackgroundHeight - 12)
-                .opacity(0.9)
-                .cornerRadius(18.0)
-                .shadow(radius: 3)
-            
-            VStack(spacing: 0) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        
-                        Image(viewModel.profilePicture)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 42, height: 70)
-                            .cornerRadius(6)
-                        
-                        Spacer()
-                        
+        Button(action: {
+            viewModel.performNavigation()
+
+            onTap() // Call the onTap closure
+
+        }) {
+            ZStack {
+                Image(viewModel.selectedTheme.content.themeURL)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: cardBackgroundWidth)
+                    .frame(height: cardBackgroundHeight)
+                    .clipped()
+                    .cornerRadius(21.0)
+                
+                Blur(style: .regular)
+                    .frame(width: cardBackgroundWidth - 12)
+                    .frame(height: cardBackgroundHeight - 12)
+                    .opacity(0.9)
+                    .cornerRadius(18.0)
+                    .shadow(radius: 3)
+                
+                VStack(spacing: 0) {
+                    HStack {
                         VStack(alignment: .leading) {
-                            Text(viewModel.username)
-                                .font(.system(size: 10))
-                                .fontWeight(.bold)
                             
-                            Text("USERNAME / ユーザー名".uppercased())
-                                .font(.system(size: 6))
-
-                        }
-                    }
-                    Spacer()
-                    
-                    // User details
-                    VStack(alignment: .trailing) {
-                        VStack(alignment: .trailing) {
-                            Text("\(viewModel.location)")
-                                .font(.system(size: 8))
-                            Text("COUNTRY / 国".uppercased())
-                                .font(.system(size: 6))
-
+                            Image(viewModel.profilePicture)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 42, height: 70)
+                                .cornerRadius(6)
+                            
+                            Spacer()
+                            
+                            VStack(alignment: .leading) {
+                                Text(viewModel.username)
+                                    .font(.system(size: 10))
+                                    .fontWeight(.bold)
+                                
+                                Text("USERNAME / ユーザー名".uppercased())
+                                    .font(.system(size: 6))
+                                
+                            }
                         }
                         Spacer()
                         
+                        // User details
                         VStack(alignment: .trailing) {
-                            Text("\(viewModel.followerCount)")
-                                .font(.system(size: 8))
+                            VStack(alignment: .trailing) {
+                                Text("\(viewModel.location)")
+                                    .font(.system(size: 8))
+                                Text("COUNTRY / 国".uppercased())
+                                    .font(.system(size: 6))
+                                
+                            }
+                            Spacer()
                             
-                            Text("following".uppercased())
-                                .font(.system(size: 6))
-
+                            VStack(alignment: .trailing) {
+                                Text("\(viewModel.followerCount)")
+                                    .font(.system(size: 8))
+                                
+                                Text("following".uppercased())
+                                    .font(.system(size: 6))
+                                
+                            }
+                            Spacer()
+                            
+                            VStack(alignment: .trailing) {
+                                Text("\(viewModel.followerCount)")
+                                    .font(.system(size: 8))
+                                Text("followers".uppercased())
+                                    .font(.system(size: 6))
+                                
+                            }
+                            Spacer()
+                            
+                            VStack(alignment: .trailing) {
+                                Text(monthYearFormatter.format(date: dateToDisplay).uppercased())
+                                    .font(.system(size: 8))
+                                Text("以来のメンバー".uppercased())
+                                    .font(.system(size: 6))
+                                
+                            }
                         }
-                        Spacer()
-
-                        VStack(alignment: .trailing) {
-                            Text("\(viewModel.followerCount)")
-                                .font(.system(size: 8))
-                            Text("followers".uppercased())
-                                .font(.system(size: 6))
-
-                        }
-                        Spacer()
-
-                        VStack(alignment: .trailing) {
-                            Text(monthYearFormatter.format(date: dateToDisplay).uppercased())
-                                .font(.system(size: 8))
-                            Text("以来のメンバー".uppercased())
-                                .font(.system(size: 6))
-
-                        }
+                        // Additional details can be added here
+                        
                     }
-                    // Additional details can be added here
-                    
+                    .padding(12)
+                    .frame(width: cardBackgroundWidth - 12)
+                    .frame(height: cardBackgroundHeight - 12)
+                    .onAppear {
+                        //                    viewModel.loadSelectedTheme()
+                    }
                 }
-                .padding(12)
-                .frame(width: cardBackgroundWidth - 12)
-                .frame(height: cardBackgroundHeight - 12)
-                .onAppear {
-//                    viewModel.loadSelectedTheme()
+            }
+            .onAppear {
+                viewModel.navigateToProfile = { userID in
+                    withAnimation(.spring()) {
+                        navigationPath.append(userID)
+                    }
                 }
             }
         }
@@ -123,8 +140,11 @@ let sampleTheme = Theme(
 )
 
 // Initialize the ViewModel with the sample user
-let userviewModel = UserViewModel(user: sampleUser)
+//let currentUser = SampleData.userEmma
+
+//let userviewModel = UserViewModel(user: SampleData.userJohn) // or any other sample user
 
 #Preview {
-    UserCard(viewModel: userviewModel, dateToDisplay: Date())
+    UserCard(viewModel: UserViewModel(), dateToDisplay: Date(), navigationPath: .constant(NavigationPath()), onTap: {})
+    
 }

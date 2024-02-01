@@ -12,18 +12,18 @@ import Foundation
 // Enum representing the different types of notifications.
 // Each case corresponds to a different event that might happen in your app.
 enum NotificationType {
-    case postLike(postID: UUID)         // for Text / Image / Video Posts
-    case postRepost(postID: UUID)       // for Text / Image / Video Posts
-    case postComment(postID: UUID)      // for Text / Image / Video Posts
-    case postQuote(postID: UUID)        // for Text / Image / Video Posts
-    case storyLike(storyID: UUID)       // for Story Posts
-    case storyReply(storyID: UUID)      // for Story Posts
-    case themePurchase(themeID: UUID)   // for Users who created a theme
-    case newTheme(userID: UUID)         // for when Users you follow, created a theme
-    case follow(userID: UUID)           // user who followed you
-    case tag(postID: UUID)              // post in which you were tagged
-    case commentLike(commentID: UUID)   // for any comment you have left
-    case commentReply(commentID: UUID)  // for any comment you have left, which was replied to...
+    case postLike(post: Post)         // for Text / Image / Video Posts
+    case postRepost(post: Post)       // for Text / Image / Video Posts
+    case postComment(post: Post)      // for Text / Image / Video Posts
+    case postQuote(post: Post)        // for Text / Image / Video Posts
+    case storyLike(story: StoryItem)       // for Story Posts
+    case storyReply(story: StoryItem)      // for Story Posts
+    case themePurchase(theme: Theme)   // for Users who created a theme
+    case newTheme(theme: Theme)         // for when Users you follow, created a theme
+    case follow(user: User)           // user who followed you
+    case mention(postID: UUID)          // post in which you were mentioned
+    case commentLike(comment: Comment)   // for any comment you have left
+    case commentReply(comment: Comment)  // for any comment you have left, which was replied to...
     case musicLike(musicID: UUID)       // for Users who have shared music
     case musicRepost(musicID: UUID)     // for Users who have shared music
     // ... any other notification types
@@ -33,19 +33,15 @@ enum NotificationType {
 struct UserNotification: Identifiable {
     var id: UUID                        // Unique identifier for the notification
     var type: NotificationType          // Type of notification
-    var title: String                   // Short descriptor of the notification
-    var message: String                 // More detailed description, could be based on the notification type
     var timestamp: Date                 // When the notification was issued
     var isRead: Bool                    // Whether or not the notification has been read
 
     // Depending on your design, you might include additional metadata
     // related to the notification here, potentially including navigation information.
 
-    init(id: UUID = UUID(), type: NotificationType, title: String, message: String, timestamp: Date, isRead: Bool = false) {
+    init(id: UUID = UUID(), type: NotificationType, timestamp: Date, isRead: Bool = false) {
         self.id = id
         self.type = type
-        self.title = title
-        self.message = message
         self.timestamp = timestamp
         self.isRead = isRead
     }

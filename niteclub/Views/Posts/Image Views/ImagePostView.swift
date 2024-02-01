@@ -61,7 +61,6 @@ struct ImagePostView: View {
                 
                 HStack {
                     Button(action: {
-                        // This assumes that your Post has a reference to the user who created it
                         withAnimation(.spring) {navigateToProfile(viewModel.post.author)}
                     }) {
                         Text(viewModel.post.author.username)

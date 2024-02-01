@@ -13,14 +13,54 @@ struct SampleData {
         let allUsers = [userJohn, userEmma, userRobert, userBuhle, userRickkw, userYannie]
         return allUsers.first { $0.id == id }
     }
+    
+    static var allUsers: [User] {
+        let dynamicUsers = generateSampleUsers(count: 50) // Generate 50 sample users
+
+        return [userJohn, userEmma, userRobert, userBuhle, userRickkw, userYannie] + dynamicUsers
+    }
+    
+    static func generateSampleUsers(count: Int) -> [User] {
+        (1...count).map { i in
+            User(id: UUID(),
+                 username: "user\(i)",
+                 profilePicture: "image\(i)", // Assuming you have placeholder images
+                 following: [],
+                 followers: [],
+                 lurking: Int.random(in: 1...10000),
+                 status: .default,
+                 acquiredThemes: [sampleTheme, sampleTheme1, sampleTheme2, sampleTheme3, sampleTheme4, sampleTheme5, sampleTheme6].shuffled(),
+                 selectedTheme: sampleTheme,
+                 dateJoined: Date(),
+                 location: "Location \(i)",
+                 likedPosts: [])
+        }
+    }
+
 
     // Users
-    static let userJohn = User(id: UUID(), username: "johndeez", profilePicture: "image1", following: [], followers: [], lurking: 7832, status: .default, acquiredThemes: [sampleTheme,sampleTheme1,sampleTheme2,sampleTheme3,sampleTheme4, sampleTheme5,sampleTheme6], selectedTheme: sampleTheme1, dateJoined: Date(), location: "USA")
-    static let userEmma = User(id: UUID(), username: "emma", profilePicture: "image10", following: [], followers: [], lurking: 322, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme2, dateJoined: Date(), location: "USA")
-    static let userRobert = User(id: UUID(), username: "robertg", profilePicture: "image19", following: [], followers: [], lurking: 4257, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme3, dateJoined: Date(), location: "USA")
-    static let userBuhle = User(id: UUID(), username: "buhle", profilePicture: "image42", following: [], followers: [], lurking: 35988, status: .foreverMember, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme4, dateJoined: Date(), location: "nyc", likedPosts: [])
-    static let userRickkw = User(id: UUID(), username: "rickkw", profilePicture: "image32", following: [], followers: [], lurking: 5928, status: .foreverMember, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme5, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let userJohn = User(id: UUID(), username: "johndeez", profilePicture: "image1", following: [], followers: [], lurking: 332, status: .default, acquiredThemes: [sampleTheme,sampleTheme1,sampleTheme2,sampleTheme3,sampleTheme4, sampleTheme5,sampleTheme6], selectedTheme: sampleTheme4, dateJoined: Date(), location: "USA")
+    static let userEmma = User(id: UUID(), username: "emma", profilePicture: "image10", following: [], followers: [], lurking: 129, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme2, dateJoined: Date(), location: "USA")
+    static let userRobert = User(id: UUID(), username: "robertg", profilePicture: "image19", following: [], followers: [], lurking: 31, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme3, dateJoined: Date(), location: "USA")
+    static let userBuhle = User(id: UUID(), username: "buhle", profilePicture: "image42", following: [], followers: [], lurking: 209, status: .foreverMember, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme4, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let userRickkw = User(id: UUID(), username: "rickkw", profilePicture: "image32", following: [], followers: [], lurking: 3299, status: .foreverMember, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme5, dateJoined: Date(), location: "nyc", likedPosts: [])
     static let userYannie = User(id: UUID(), username: "yannie", profilePicture: "image48", following: [], followers: [], lurking: 5928, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+
+    static let bobby = User(id: UUID(), username: "bobby", profilePicture: "image15", following: [], followers: [], lurking: 6715, status: .admin, acquiredThemes: [themeSample1, themeSample2, themeSample3, themeSample4, themeSample5], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let carrie = User(id: UUID(), username: "carrie", profilePicture: "image33", following: [], followers: [], lurking: 33789, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let donna = User(id: UUID(), username: "donna", profilePicture: "image48", following: [], followers: [], lurking: 2317, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let faye = User(id: UUID(), username: "faye", profilePicture: "image29", following: [], followers: [], lurking: 3421, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let gilly = User(id: UUID(), username: "gilly", profilePicture: "image4", following: [], followers: [], lurking: 35253, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let hhhether = User(id: UUID(), username: "hhhether", profilePicture: "image37", following: [], followers: [], lurking: 643, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let ii_ii = User(id: UUID(), username: "ii_ii", profilePicture: "image16", following: [], followers: [], lurking: 5756, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let jklmao = User(id: UUID(), username: "jklmao", profilePicture: "image22", following: [], followers: [], lurking: 65, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let kola = User(id: UUID(), username: "kola", profilePicture: "image8", following: [], followers: [], lurking: 876, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let lana = User(id: UUID(), username: "lana", profilePicture: "image28", following: [], followers: [], lurking: 217, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let mosaic = User(id: UUID(), username: "mosaic", profilePicture: "image18", following: [], followers: [], lurking: 5313, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let nefer00 = User(id: UUID(), username: "nefer00", profilePicture: "image38", following: [], followers: [], lurking: 8765, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let mozart = User(id: UUID(), username: "mozart", profilePicture: "image32", following: [], followers: [], lurking: 531111, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let ekkstacy = User(id: UUID(), username: "ii_ii", profilePicture: "image16", following: [], followers: [], lurking: 5756, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
+
 
     // ... as many users as you want for variety.
     
@@ -87,7 +127,12 @@ struct SampleData {
 
 extension SampleData {
     // Posts by John
-    static let johnTextPost = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "John's amazing text post!", images: nil, videos: nil, socialInteractions: SocialInteractionsManager())
+    static let johnTextPost = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "John's amazing text post!", images: nil, videos: nil, socialInteractions: SocialInteractionsManager(
+        comments: [],
+        likes: [SampleData.userEmma, SampleData.userRobert], // Predefined likes
+        reposts: [SampleData.faye, SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie],
+        quotes: []
+))
     static let johnImagePost = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "where is this caption", images: ["image32"], videos: nil, socialInteractions: SocialInteractionsManager())
     static let johnImagePost2 = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "testing the three image look", images: ["image6", "image5", "image1"], videos: nil, socialInteractions: SocialInteractionsManager())
 
@@ -95,7 +140,17 @@ extension SampleData {
 
     // Posts by Emma
     static let emmaVideoPost = Post(id: UUID(), author: userEmma, timestamp: Date(), textContent: "Emma's vacation!", images: ["image18"], videos: nil, socialInteractions: SocialInteractionsManager())
-    static let emmaImagePost = Post(id: UUID(), author: userEmma, timestamp: Date(), textContent: "look at my pics!", images: ["image7", "image3"], videos: nil, socialInteractions: SocialInteractionsManager())
+    static let emmaImagePost = Post(id: UUID(), author: userEmma, timestamp: Date(), textContent: "look at my pics!", images: ["image7", "image3"], videos: nil, socialInteractions: SocialInteractionsManager(
+        comments: [
+            Comment(author: SampleData.donna, text: "mid ass post!", timestamp: Date()),
+            Comment(author: SampleData.faye, text: "nothing really to say here", timestamp: Date()),
+            Comment(author: SampleData.carrie, text: "this post is so ass actually  i do not fuck with it at all", timestamp: Date()),
+            Comment(author: SampleData.kola, text: "suspect at best", timestamp: Date()),
+            Comment(author: SampleData.lana, text: ":)", timestamp: Date())
+        ],
+        likes: [SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie], // Predefined likes
+        reposts: [SampleData.faye, SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie],
+        quotes: []))
 
     // ...
 
@@ -138,38 +193,84 @@ extension SampleData {
     static let johnImagePost23 = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "where is this caption", images: ["image32"], videos: nil, socialInteractions: SocialInteractionsManager())
 
     static let yanniepost = Post(id: UUID(), author: userYannie, timestamp: Date(), textContent: "im yannie hello hi", images: ["image44" , "image46", "image47"], videos: nil, socialInteractions: SocialInteractionsManager())
+    
+    static let vidPost0 = Post(id: UUID(), author: userYannie, timestamp: Date(), textContent: "im yannie hello hi", images: nil,         videos: [Bundle.main.url(forResource: "samplevideo", withExtension: "mov")?.absoluteString ?? ""],
+ socialInteractions: SocialInteractionsManager())
+
+    static let vidPost1 = Post(id: UUID(), author: userYannie, timestamp: Date(), textContent: "im yannie hello hi", images: nil,         videos: [Bundle.main.url(forResource: "vid1", withExtension: "mov")?.absoluteString ?? ""],
+ socialInteractions: SocialInteractionsManager(
+    likes: [SampleData.faye, SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie], // Predefined likes
+    reposts: [SampleData.faye, SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie],
+    quotes: []
+
+ ))
+
+    static let vidPost2 = Post(id: UUID(), author: userEmma, timestamp: Date(), textContent: "im yannie hello hi", images: nil,         videos: [Bundle.main.url(forResource: "vid2", withExtension: "mov")?.absoluteString ?? ""],
+ socialInteractions: SocialInteractionsManager())
+    
+    static let vidPost3 = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "im yannie hello hi", images: nil,         videos: [Bundle.main.url(forResource: "vid3", withExtension: "mov")?.absoluteString ?? ""],
+ socialInteractions: SocialInteractionsManager(
+    likes: [SampleData.faye, SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie], // Predefined likes
+    reposts: [],
+    quotes: []
+ ))
+
+    static let vidPost4 = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "im yannie hello hi", images: nil,        videos: [Bundle.main.url(forResource: "vid4", withExtension: "mov")?.absoluteString ?? ""],
+ socialInteractions: SocialInteractionsManager())
+
+
+    static let vidPost5 = Post(id: UUID(), author: userBuhle, timestamp: Date(), textContent: "im yannie hello hi", images: nil,         videos: [Bundle.main.url(forResource: "vid5", withExtension: "mov")?.absoluteString ?? ""],
+ socialInteractions: SocialInteractionsManager())
+
+    static let vidPost6 = Post(id: UUID(), author: userRickkw, timestamp: Date(), textContent: "im yannie hello hi", images: nil,         videos: [Bundle.main.url(forResource: "vid6", withExtension: "mov")?.absoluteString ?? ""],
+ socialInteractions: SocialInteractionsManager())
 
     // Gather them for easy access and use
-    static let allPosts: [Post] = [yanniepost,text0, image46, image44, johnTextPost, image42, johnImagePost,image1,image11, image12, image2, image3, emmaVideoPost, robertTextPost, image4, image45, emmaImagePost, robertImagePost, johnImagePost2, text1, text12, text2, text11, text3, text4, text5, text6, text10].shuffled() // Add all the posts here
+    static let allPosts: [Post] = [yanniepost,text0, image46, image44, johnTextPost, image42, johnImagePost,image1,image11, image12, image2, image3, emmaVideoPost, robertTextPost, image4, image45, emmaImagePost, robertImagePost, johnImagePost2, text1, text12, text2, text11, text3, text4, text5, text6, text10, vidPost0, vidPost1, vidPost2, vidPost3, vidPost4, vidPost5, vidPost6].shuffled() // Add all the posts here vidPost0, vidPost1, vidPost2, vidPost3, vidPost4, vidPost5, vidPost6
     
     
-    static let johnStories = [
-        StoryItem(author: userJohn, mediaURL: "image31", postedDate: Date(), duration: 5),
-        StoryItem(author: userJohn, mediaURL: "image40", postedDate: Date(), duration: 5)
-        // Add more stories as needed
+//     StoryPost Variables :
+//        let id: UUID
+//        let author: User
+//        let media: StoryType
+//        var imageUrl: String? // URL or name of the image
+//        var videoUrl: String? // URL of the video
+//        var duration: TimeInterval // For images, default 6 seconds
+//        let timePosted: Date
+//        var viewed: [User] // Users who viewed the post
+//        var likes: [User] // Users who liked the post
+//        var replies: [Reply] // Replies to the post
+//        var isCloseFriendPost: Bool
+
+    // Arrays of StoryPosts for each user
+    static let johnStoryPosts = [
+        StoryPost(author: userJohn, media: .image, imageUrl: "image31", duration: 6, timePosted: Date(), isCloseFriendPost: false),
+        StoryPost(author: userJohn, media: .image, imageUrl: "image40", duration: 6, timePosted: Date(), isCloseFriendPost: false)
+        // Add more story posts as needed
     ]
 
-    static let emmaStories = [
-        StoryItem(author: userEmma, mediaURL: "image10", postedDate: Date(), duration: 5)
-        // Add more stories as needed
+    static let emmaStoryPosts = [
+        StoryPost(author: userEmma, media: .image, imageUrl: "image10", duration: 6, timePosted: Date(), isCloseFriendPost: false)
+        // Add more story posts as needed
     ]
-    
-    static let rickStories = [
-        StoryItem(author: userRickkw, mediaURL: "image12", postedDate: Date(), duration: 5),
-        StoryItem(author: userRickkw, mediaURL: "image29", postedDate: Date(), duration: 5),
-        StoryItem(author: userRickkw, mediaURL: "image19", postedDate: Date(), duration: 5),
-        StoryItem(author: userRickkw, mediaURL: "image21", postedDate: Date(), duration: 5)
 
+    static let rickStoryPosts = [
+        StoryPost(author: userRickkw, media: .image, imageUrl: "image12", duration: 6, timePosted: Date(), isCloseFriendPost: false),
+        StoryPost(author: userRickkw, media: .image, imageUrl: "image29", duration: 6, timePosted: Date(), isCloseFriendPost: false),
+        StoryPost(author: userRickkw, media: .image, imageUrl: "image19", duration: 6, timePosted: Date(), isCloseFriendPost: false),
+        StoryPost(author: userRickkw, media: .image, imageUrl: "image21", duration: 6, timePosted: Date(), isCloseFriendPost: false)
+        // Add more story posts as needed
     ]
+
 
     // ... repeat for each user ...
+    static let mfstory =     
+    StoryPost(author: userEmma, media: .image, imageUrl: "image10", duration: 6, timePosted: Date(), isCloseFriendPost: false)
 
-    // Group stories into StoryGroups
-    static let allStoryGroups: [StoryGroup] = [
-        StoryGroup(user: userJohn, stories: johnStories),
-        StoryGroup(user: userEmma, stories: emmaStories),
-        StoryGroup(user: userRickkw, stories: rickStories)
-        // Add more story groups as needed
-    ]
+    static let johnStories = Story(author: userJohn, storyPosts: johnStoryPosts)
+    static let emmaStories = Story(author: userEmma, storyPosts: emmaStoryPosts)
+    static let rickStories = Story(author: userRickkw, storyPosts: rickStoryPosts)
+
+    static let sampleStories: [Story] = [johnStories, emmaStories, rickStories]
 
 }

@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct LikedPostsView: View {
     var likedPosts: [Post]
     var user: User
-    @State private var selectedPostIndex: Int?
+    @EnvironmentObject var postsVM: PostsViewModel // Use shared instance
     @Namespace private var namespace
     @State private var selectedPost: PostViewModel?
 
@@ -21,6 +22,7 @@ struct LikedPostsView: View {
                     let postViewModel = PostViewModel(post: likedPosts[index], currentUser: user)
                     PostView(
                         viewModel: postViewModel,
+                        postsVM: postsVM, // Use the shared instance
                         navigationPath: .constant(NavigationPath()),
                         namespace: namespace,
                         onSelectPost: { selectedViewModel in
@@ -36,8 +38,11 @@ struct LikedPostsView: View {
 }
 
 
+
 let samplePost = Post(author: sampleUser, timestamp: Date(), textContent: "This is a sample post.", images: nil, videos: nil, socialInteractions: SocialInteractionsManager())
 
 
 #Preview {
-    LikedPostsView(likedPosts: [samplePost], user: sampleUser)}
+    LikedPostsView(likedPosts: [samplePost], user: sampleUser)
+        .environmentObject(PostsViewModel())
+}

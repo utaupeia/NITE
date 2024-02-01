@@ -13,11 +13,12 @@ class SharedViewModel: ObservableObject {
 
 struct PostView: View {
     @ObservedObject var viewModel: PostViewModel
+    @ObservedObject var postsVM: PostsViewModel
     @Binding var navigationPath: NavigationPath  // Add NavigationPath binding
     var namespace: Namespace.ID
     var onSelectPost: (PostViewModel) -> Void
 
-//    var onSelect: (Int) -> Void  // Closure to call when a post is selected
+    @State private var isVideoActive = true  // Add this line
 
     var body: some View {
         ZStack {
@@ -31,15 +32,31 @@ struct PostView: View {
                     .matchedGeometryEffect(id: viewModel.id, in: namespace)
 
             case .video:
-                VideoPostView(viewModel: viewModel)
-                    .matchedGeometryEffect(id: viewModel.id, in: namespace)
+                VideoPostView(
+                    viewModel: viewModel,
+                    navigationPath: $navigationPath,
+                    isActiveVideo: $isVideoActive,
+                    onSelectPost: onSelectPost
+                )
+                .matchedGeometryEffect(id: viewModel.id, in: namespace)
+//                .onAppear { isVideoActive = true }  // Play video on appear
+//                .onDisappear { isVideoActive = false }  // Pause video on disappear
+                
 
             default:
                 EmptyView()
             }
         }
-        //            .matchedGeometryEffect(id: viewModel.postViewModels[index].id, in: namespace)
-
+        .navigationDestination(for: User.self) { user in
+            ProfileContentTabView(user: user, navigationPath: $navigationPath)
+                // Provide necessary environment objects
+                .environmentObject(UserViewModel())
+                .environmentObject(viewModel)
+                .environmentObject(postsVM.userViewModel)
+                .onAppear {
+                    postsVM.userViewModel.setUserByID(user.id)
+                }
+        }
     }
 }
 
@@ -50,6 +67,8 @@ let textPost = Post(id: UUID(), author: sampleUser, timestamp: Date(), textConte
 let imagePost = Post(id: UUID(), author: sampleUser, timestamp: Date(), textContent: "Check out these images!", images: ["image21", "image2"], videos: nil, socialInteractions: interactionsManager)
 
 let videoPost = Post(id: UUID(), author: sampleUser, timestamp: Date(), textContent: "Awesome video ahead!", images: nil, videos: ["videoUrl"], socialInteractions: interactionsManager)
+
+let vidPost = SampleData.vidPost3
 
 let textPostViewModel = PostViewModel(post: textPost, currentUser: mockCurrentUser)
 let videoPostViewModel = PostViewModel(post: videoPost, currentUser: mockCurrentUser)
@@ -68,7 +87,7 @@ let videoPostViewModel = PostViewModel(post: videoPost, currentUser: mockCurrent
 //}
 #Preview {
     PostView(
-        viewModel: PostViewModel(post: samplePost, currentUser: sampleUser),
+        viewModel: PostViewModel(post: vidPost, currentUser: sampleUser), postsVM: PostsViewModel(),
         navigationPath: .constant(NavigationPath()),
         namespace: Namespace().wrappedValue,
         onSelectPost: { _ in }

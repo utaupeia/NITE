@@ -99,3 +99,12 @@ var user = User(
 //// If the user decides to apply this new theme, you would set it as the selected theme.
 //user.selectTheme(themeContent)
 
+extension Theme {
+    static let defaultTheme = Theme(
+        name: "Default",
+        content: ThemeContent(id: UUID(), themeURL: "defaultThemeURL"),
+        price: 0.0,
+        creationDate: Date(),
+        approved: true
+    )
+}

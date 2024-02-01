@@ -15,22 +15,23 @@ struct SettingsButton: View {
                 showSettings.toggle()
             }
         }) {
-            Circle()
-                .foregroundColor(.black.opacity(0.15))
-                .frame(width: 30, height: 30)
-                .padding(.horizontal, 15)
+            Image(systemName: "option")
+                .resizable()
+                .frame(width: 12, height: 12)
+                .foregroundColor(.white)
                 .padding(.vertical, 6)
+                .padding(.horizontal, 18)
                 .overlay(
-                Image(systemName: "gear")
-                    .resizable()
-                    .frame(width: 12, height: 12)
-                    .foregroundColor(.white)
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(.white.opacity(0.25), lineWidth: 1)
                 )
+                .padding(.vertical, 3)
+                .padding(.horizontal, 15)
         }
     }
 }
 
 
-//#Preview {
-//    SettingsButton()
-//}
+#Preview {
+    SettingsButton(showSettings: .constant(false))
+}

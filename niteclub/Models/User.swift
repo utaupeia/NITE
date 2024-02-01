@@ -43,31 +43,33 @@ struct User: Identifiable, Equatable, Hashable {
     var dateJoined: Date
     var location: String  // This could also be a custom 'Location' type if you need more detail
     var likedPosts: [Post] /*= []*/ // Posts that the user has liked.
+    var invitedBy: UUID?  // ID of the user who invited them
 
-    // closeFriends [] mutual following / follower relationship, electively added to friends list
-    // createdThemes / themes user has created
-    // isVerified / Bool
-    // birthdate
-    // email
-    // invited by / which user invite code was used to join app if any
-    // first name
-    // last name
-    // account number / only needed for theme creation
-    // routing number / only needed for theme creation
-    // gender ()
-    // websiteURL / added website from user
-    // postsCreated
-    // commentsMade / all comments made on others posts
-    // lastActive / last date active
-    // likedSongs / songs user has liked
-    // followsYou / user relationship
-    // isBlocked / is user blocked by
-    // blockedUsers / users that have been blocked
-    // has notifications turned on
-    
+//
+//     closeFriends [] mutual following / follower relationship, electively added to friends list
+//     createdThemes / themes user has created
+//     isVerified / Bool
+//     birthdate
+//     email
+//     invited by / which user invite code was used to join app if any
+//     first name
+//     last name
+//     account number / only needed for theme creation
+//     routing number / only needed for theme creation
+//     gender ()
+//     websiteURL / added website from user
+//     postsCreated
+//     commentsMade / all comments made on others posts
+//     lastActive / last date active
+//     likedSongs / songs user has liked
+//     followsYou / user relationship
+//     isBlocked / is user blocked by
+//     blockedUsers / users that have been blocked
+//     has notifications turned on
+//    
     
     // Initializer
-    init(id: UUID = UUID(), username: String, profilePicture: String, following: [UUID] = [], followers: [UUID] = [], lurking: Int = 0, status: UserStatus = .default, acquiredThemes: [Theme] = [], selectedTheme: Theme, dateJoined: Date, location: String, likedPosts: [Post] = []) {
+    init(id: UUID = UUID(), username: String, profilePicture: String, following: [UUID] = [], followers: [UUID] = [], lurking: Int = 0, status: UserStatus = .default, acquiredThemes: [Theme] = [], selectedTheme: Theme, dateJoined: Date, location: String, likedPosts: [Post] = [], invitedBy: UUID? = nil) {
         self.id = id
         self.username = username
         self.profilePicture = profilePicture
@@ -80,52 +82,17 @@ struct User: Identifiable, Equatable, Hashable {
         self.dateJoined = dateJoined
         self.location = location
         self.likedPosts = likedPosts
+        self.invitedBy = invitedBy
     }
     
-    
-    mutating func follow(user: User) {
-        // Add the user's ID to your 'following' list
-        following.append(user.id)
-        
-        // In a real scenario, you would also want to update the other user's 'followers' list, likely through a server-side operation
-    }
-    
-    mutating func unfollow(user: User) {
-        // Remove the user's ID from your 'following' list
-        following.removeAll { $0 == user.id }
-        
-        // Similarly, you would update the other user's 'followers' list server-side in a real scenario
-    }
-    
-    mutating func addCloseFriend(user: User) {
-        if !closeFriends.contains(user.id) {
-            closeFriends.append(user.id)
-        }
-    }
-
-    mutating func removeCloseFriend(user: User) {
-        closeFriends.removeAll { $0 == user.id }
+    func isCurrentUser() -> Bool {
+        return self.id == SessionManager.shared.currentUserId
     }
 
     func isCloseFriend(of user: User) -> Bool {
         return closeFriends.contains(user.id)
     }
-
     
-//    mutating func acquireTheme(_ theme: Theme) {
-//        // Check and append based on ThemeContent
-//        let themeContent = theme.content
-//        if !acquiredThemes.contains(where: { $0.id == theme.id }) {
-//            acquiredThemes.append(theme)
-//        }
-//    }
-    
-//    mutating func acquireTheme(_ theme: Theme) {
-//        // Add the theme to the user's collection if it's not already there.
-//        if !acquiredThemes.contains(where: { $0.id == theme.id }) {
-//            acquiredThemes.append(theme)
-//        }
-//    }
 }
 
 class UserDataManager {
@@ -138,12 +105,86 @@ class UserDataManager {
 }
 
 
-class SessionManager {
-    static let shared = SessionManager()  // Singleton instance
+//class SessionManager: ObservableObject {
+//    static let shared = SessionManager()
+//
+//    // This property holds the current user's information.
+//    // It's optional to account for cases where there is no logged-in user.
+//    var currentUser: User? {
+//        didSet {
+//            // Notify interested parts of your app that the currentUser has changed.
+//            // You can use NotificationCenter or a similar mechanism for this.
+//            NotificationCenter.default.post(name: .currentUserDidChange, object: currentUser)
+//        }
+//    }
+//
+//    // Additional session-related methods can be added here.
+//    // For example, methods for logging in, logging out, etc.
+//}
 
-    private init() {}  // Prevents direct instantiation
+class SessionManager: ObservableObject {
+    static let shared = SessionManager()
 
-    var currentUser: User?  // Currently logged-in user
+    // Use @Published to notify observers about changes
+    @Published var currentUserId: UUID?
+
+    private init() {}
+
+    // Function to log in a user
+    func loginUser(withUserId userId: UUID) {
+        currentUserId = userId
+        // Additional login logic here
+        // e.g., storing the user ID in persistent storage
+    }
+
+    // Function to log out the current user
+    func logoutUser() {
+        currentUserId = nil
+        // Additional logout logic here
+        // e.g., clearing the user ID from persistent storage
+    }
+
+    // Function to check if there's a user currently logged in
+    func isUserLoggedIn() -> Bool {
+        return currentUserId != nil
+    }
+
+    // Optionally, if you want to directly access the User object
+    // from the SessionManager, you could add a computed property like this:
+     var currentUser: User? {
+         // For testing or development, return a sample user directly
+         // Comment or remove this line in the production code
+         return SampleData.userJohn
+
+         // In production, use the following logic:
+         // guard let userId = currentUserId else { return nil }
+         // return UserDataManager.fetchUser(forCreatorId: userId)
+     }
+}
+
+
+
+
+//    func logIn(with credentials: Credentials, completion: @escaping (Result<User, Error>) -> Void) {
+//        // Implement login logic here, then update currentUser
+//    }
+
+//    func logOut() {
+//        // Implement logout logic here
+//        currentUser = nil
+//    }
+
+    // Other session-related methods...
+
+    // Example of a thread-safe way to update currentUser
+//    func updateCurrentUser(_ newUser: User?) {
+//        DispatchQueue.main.async { [weak self] in
+//            self?.currentUser = newUser
+//        }
+//    }
+
+extension Notification.Name {
+    static let currentUserDidChange = Notification.Name("currentUserDidChange")
 }
 
 ////let regularUser = User(username: "regularUser", profilePicture: "", role: .default)

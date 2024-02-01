@@ -120,22 +120,6 @@ struct ThirdStorySample: View {
                         }
                         .zIndex(isExpanded ? 3 : 0)
                     
-//                    storyEngagementElements(
-//                        likeAction: {
-//                            // Define your "like" action here.
-//                            print("Like button was tapped!")
-//                        },
-//                        closeAction: {
-//                            withAnimation(.spring()) {
-//                                isExpanded = false
-//                            }
-//                        },
-//                        replyAction: {
-//                            // Define your "reply" action here.
-//                            print("Reply button was tapped!")
-//                        }
-//                    )
-//                    .zIndex(2)
                 }
                 .zIndex(2) // Make sure the overlay is on top of everything else
                 .onAppear {

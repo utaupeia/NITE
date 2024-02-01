@@ -20,9 +20,6 @@ struct ThemeView: View {
             Image(theme.content.themeURL)
                 .resizable()
                 .scaledToFill()
-                .onAppear {
-                    print("Loading image asset: \(theme.content.themeURL)")
-                }
                 .clipped()
             
             Blur(style: .dark)
@@ -31,7 +28,6 @@ struct ThemeView: View {
         .ignoresSafeArea()
     }
 }
-
 
 
 struct ThemeView_Previews: PreviewProvider {

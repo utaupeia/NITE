@@ -25,3 +25,6 @@ struct Comment: Identifiable {
         self.likes = likes
     }
 }
+// Whenever the post updates its comments
+// commentViewModel.updateComments(from: postViewModel)
+

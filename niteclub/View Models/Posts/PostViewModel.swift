@@ -18,6 +18,7 @@ protocol PostViewModelProtocol {
     // ... any other requirements ...
 }
 
+// MARK: is concerned with the state and logic of individual posts
 class PostViewModel: ObservableObject, Identifiable {
     @Published var post: Post
     @Published var isLoading: Bool = false
@@ -26,6 +27,8 @@ class PostViewModel: ObservableObject, Identifiable {
     @Published var isLikeCountVisible: Bool = false
     @Published var isLikesListVisible: Bool = false
     
+    var videoPlayerViewModel: VideoPlayerViewModel?
+
     var currentUser: User
     var quotingUser: User?  // This property will be nil for regular posts and will have a value only for quoted posts.
     
@@ -37,6 +40,11 @@ class PostViewModel: ObservableObject, Identifiable {
         self.post = post
         self.currentUser = currentUser
         self.quotingUser = quotingUser
+        
+        if let videoURLString = post.videos?.first, let videoURL = URL(string: videoURLString) {
+            self.videoPlayerViewModel = VideoPlayerViewModel(videoURL: videoURL)
+        }
+
     }
     
     // Check if the current user is the post creator
@@ -140,7 +148,19 @@ class PostViewModel: ObservableObject, Identifiable {
             // Here, you might sort the likes, fetch additional data about the users, etc.
             return post.socialInteractions.likes
         }
-        
+    
+    // Determine if this post is a repost
+    var isRepost: Bool {
+        // Your logic here, maybe check if the post's author is not the current user but is in the user's reposts
+        return post.socialInteractions.reposts.contains { $0.id == currentUser.id }
+    }
+
+    // Determine if this post is a quote
+    var isQuote: Bool {
+        // This is a simple check, and you might need more sophisticated logic
+        return post.socialInteractions.quotes.contains { $0.quotingUser.id == currentUser.id }
+    }
+
         func repostPost(by user: User) {
             // Now we have the 'user' who reposts the post, and we can append it to the 'reposts' array
             post.socialInteractions.reposts.append(user)
@@ -199,51 +219,32 @@ class PostViewModel: ObservableObject, Identifiable {
         // ... more common functionalities ...
     }
 
-
+// MARK: manages a collection of posts and overall state like the selected user profile
 class PostsViewModel: ObservableObject {
     @Published var postViewModels: [PostViewModel] = []
     @Published var selectedUser: User?  // The user whose profile is selected
+    @Published var userViewModel = UserViewModel()
 
-    // Initializer to load the posts
-    
+    init() {
+        // Initialize postViewModels
+        // Replace this with your actual data fetching logic
+        let currentUser = getCurrentUser()
+        let posts = SampleData.allPosts // Replace with your method to fetch posts
+        self.postViewModels = posts.map { PostViewModel(post: $0, currentUser: currentUser) }
+    }
+
+
     func selectUser(_ user: User) {
         selectedUser = user
-    }
-    
-    init() {
-        // Assuming you fetch your sample posts here
-        let posts = SampleData.allPosts
-        
-        // Assuming you have a way to get the current user
-        let currentUser = getCurrentUser()
-        
-        postViewModels = posts.map { PostViewModel(post: $0, currentUser: currentUser) }
+        userViewModel.setUserByID(user.id)
+        userViewModel.user = user
 
-        // After creating your view models, you can loop through them for debugging purposes:
-        for (index, viewModel) in postViewModels.enumerated() {
-            if let images = viewModel.post.images {
-                print("Post \(index) contains \(images.count) images.")
-            } else {
-                print("Post \(index) contains no images.")
-            }
-        }
     }
-
     func getCurrentUser() -> User {
         // Your logic to get the current user goes here
-        // For the sake of this example, I'm returning a dummy user
-        return User(id: UUID(), username: "CurrentUser", profilePicture: "", following: [], followers: [], status: .default, acquiredThemes: [], selectedTheme: Theme(
-            id: UUID(),
-            name: "Sample Theme",
-            content: ThemeContent(id: UUID(), themeURL: "image9"), // This URL is just a placeholder
-            price: 0.0, // It's a free theme in this example
-            creationDate: Date(),
-            approved: true // This sample theme is approved
-        )
-                    , dateJoined: Date(), location: "")
+        // For simplicity, returning a dummy user
+        return User(id: UUID(), username: "CurrentUser", profilePicture: "", following: [], followers: [], status: .default, acquiredThemes: [], selectedTheme: Theme(id: UUID(), name: "Sample Theme", content: ThemeContent(id: UUID(), themeURL: "image9"), price: 0.0, creationDate: Date(), approved: true), dateJoined: Date(), location: "")
     }
-
-
 
     var textPostViewModels: [PostViewModel] {
         postViewModels.filter {
@@ -265,17 +266,4 @@ class PostsViewModel: ObservableObject {
     }
 }
 
-extension PostViewModel {
-    // Determine if this post is a repost
-    var isRepost: Bool {
-        // Your logic here, maybe check if the post's author is not the current user but is in the user's reposts
-        return post.socialInteractions.reposts.contains { $0.id == currentUser.id }
-    }
-    
-    // Determine if this post is a quote
-    var isQuote: Bool {
-        // This is a simple check, and you might need more sophisticated logic
-        return post.socialInteractions.quotes.contains { $0.quotingUser.id == currentUser.id }
-    }
-}
 

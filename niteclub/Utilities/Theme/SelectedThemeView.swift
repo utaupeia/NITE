@@ -8,30 +8,40 @@
 import SwiftUI
 
 struct SelectedThemeView: View {
-    let user: User  // The user whose selected theme is to be displayed
+    @ObservedObject var viewModel: UserViewModel
 
     var body: some View {
         ZStack {
+            if let themeImageName = viewModel.user?.selectedTheme.content.themeURL {
+                Image(themeImageName) // Load image directly from assets
+                    .resizable()
+                    .scaledToFill()
+                    .clipped()
+            } else {
+                // Fallback image or view if the URL is not available
+                Color.blue.opacity(0.7)
+            }
+//            Blur(style: .dark)
+//                .opacity(0.0)
 
-            // Load and display a local image or a system symbol as a placeholder
-            // Replace with your actual image loading logic in the real app
-            Image(user.selectedTheme.content.themeURL)
-                .resizable()
-                .scaledToFill()
-//                .frame(width: UIScreen.main.bounds.width)
-//                .frame(height: .infinity)
-                .clipped()
-//                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            Blur(style: .dark)
-                .opacity(0.85)
-            // using for now to distort image for visibility
         }
-        .frame(width: UIScreen.main.bounds.width)
-        .frame(height: .infinity)
-//        .border(.red)
-//        .ignoresSafeArea()
+        .frame(width: UIScreen.main.bounds.width, height: .infinity)
     }
+
+    // Function to load an image from a URL string
+    private func loadImageFromURLString(_ urlString: String) -> Image {
+        if let url = URL(string: urlString), let imageData = try? Data(contentsOf: url), let uiImage = UIImage(data: imageData) {
+            return Image(uiImage: uiImage)
+        } else {
+            return Image("DefaultImage") // replace with your default image name
+        }
+    }
+    private func loadImage(named imageName: String) -> Image {
+        Image(imageName) // Assumes `imageName` is the name of an image in your asset catalog
+    }
+
 }
+
 
 //struct SelectedThemeView_Previews: PreviewProvider {
 //    static var previews: some View {

@@ -52,6 +52,7 @@ struct QuotePostView: View {
             
             PostView(
                             viewModel: quotedPostViewModel,
+                            postsVM: PostsViewModel(), // new
                             navigationPath: .constant(NavigationPath()),
                             namespace: namespace,
                             onSelectPost: onSelectPost

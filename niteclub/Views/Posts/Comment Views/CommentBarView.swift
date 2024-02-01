@@ -7,76 +7,31 @@
 
 import SwiftUI
 
-struct CommentBarView: View {
-    @ObservedObject var viewModel: CommentViewModel
-    @State private var commentText: String = ""
+struct CommentButton: View {
+    @ObservedObject var postViewModel: PostViewModel
     @State private var isTextFieldVisible: Bool = false
-
     @Binding var showComments: Bool
+    
     var body: some View {
         VStack {
-            HStack(alignment: .bottom) {
-                if isTextFieldVisible {
-                    withAnimation(.spring()) {
-                        TextField("Add a comment...", text: $commentText, axis: .vertical)
-                            .cornerRadius(8)
-                            .padding()
-                    }
-                }
-//                if commentText.count > 0 {
-//                    Button(action: postComment) {
-//                        Text("Post")
-//                    }
-//                } else {
-                    Button(action: {
-                        withAnimation(.spring()) {
-                            if commentText.count > 0 {
-                                postComment()
-                            } else {
-                                isTextFieldVisible.toggle() // Toggle the visibility of the TextField
-                            }
-                                
-                            showComments.toggle()  // Toggle the visibility of the comments section
-                        }
-                    }) {
-                        HStack(spacing: 0) {
-                            Text("\(viewModel.commentsCount)")
-                                .opacity(commentText.count > 0 ? 0.0 : 1.0)
-                            Image(systemName: commentText.count > 0 ? "arrow.merge" : "bubble.right") // Comment image
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                                .padding(.leading, 6)
-                        }
-                        .foregroundColor(.gray)
-                        .padding(12)
-                    }
-                    
-                
+            Button(action: {withAnimation(.spring()) {
+                showComments.toggle()
             }
-            .background(
-                
-                Blur(style: .dark)
-                    .cornerRadius(25)
-                    .frame(height: 45)
-                    .opacity(isTextFieldVisible ? 0.0 : 1.0)
-                
-            )
-            .overlay(
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(.gray, lineWidth: 0.5)
-                .opacity(isTextFieldVisible ? 1.0 : 0.0)
-            )
-            .padding(.trailing, 18)
-            .padding(.leading, viewModel.commentsCount > 0 ? 18 : 0)
-
+            }) {
+                HStack(spacing: 0) {
+                    if postViewModel.post.socialInteractions.comments.count > 0 {
+                        Text("\(postViewModel.post.socialInteractions.comments.count)")
+                            .monospaced()
+                    }
+                    Image(systemName: "message.badge")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .padding(.leading, 6)
+                }
+                .foregroundColor(showComments ? .white : .white.opacity(0.5))
+                .padding(12)
+            }
         }
-    }
-
-    private func postComment() {
-        let newComment = Comment(author: sampleUser, text: commentText, timestamp: Date())
-        viewModel.addComment(newComment)
-        commentText = "" // Reset comment text
-        isTextFieldVisible = false // Hide the text field again
     }
 }
 
@@ -87,7 +42,7 @@ struct CommentBarView_Previews: PreviewProvider {
 
     static var previews: some View {
 //        #Preview {
-            CommentBarView(viewModel: MockCommentViewModel(), showComments: $showComments)
+        CommentButton(postViewModel: PostViewModel(post: SampleData.emmaImagePost, currentUser: SampleData.bobby), showComments: $showComments)
 //        }
     }
 }

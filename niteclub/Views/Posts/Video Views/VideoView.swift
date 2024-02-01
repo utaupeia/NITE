@@ -59,8 +59,8 @@ struct VideoView: View {
 
     }
 }
-
-
-#Preview {
-    VideoView(viewModel: vm)
-}
+//
+//
+//#Preview {
+//    VideoView(viewModel: vm)
+//}

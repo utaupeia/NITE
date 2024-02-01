@@ -78,7 +78,7 @@ struct PicContent: View {
                         }
                         .frame(width: .infinity)
                         .padding(6)
-                        .transition(.move(edge: .bottom))
+//                        .transition(.move(edge: .bottom))
                     }
                     Spacer()
                 }

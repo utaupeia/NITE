@@ -23,6 +23,7 @@ struct RepostView: View {
 
             PostView(
                 viewModel: viewModel,
+                postsVM: PostsViewModel(), // new
                 navigationPath: .constant(NavigationPath()),
                 namespace: Namespace().wrappedValue, // Provide a dummy namespace
                 onSelectPost: { _ in } // Dummy closure for onSelectPost

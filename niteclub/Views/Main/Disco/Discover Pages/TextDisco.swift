@@ -9,40 +9,44 @@ import SwiftUI
 
 struct TextDisco: View {
     @EnvironmentObject var viewModel: PostsViewModel
-    @Binding var navigationPath: NavigationPath
+    @State private var navigationPath = NavigationPath()
     @Namespace private var namespace
     @EnvironmentObject var sharedViewModel: SharedViewModel
 
     var body: some View {
-        ScrollViewReader { scrollViewProxy in
-            ScrollView {
-                VStack {
-                    ForEach(viewModel.textPostViewModels.indices, id: \.self) { index in
-                        PostView(
-                            viewModel: viewModel.textPostViewModels[index],
-                            navigationPath: $navigationPath,
-                            namespace: namespace,
-                            onSelectPost: { selectedViewModel in
-                                sharedViewModel.selectedPost = selectedViewModel
-                            }
-                        )
-//                        , onSelect: { _ in selectedPostIndex = index }
+        NavigationStack(path: $navigationPath) {
+            
+            ScrollViewReader { scrollViewProxy in
+                ScrollView {
+                    VStack {
+                        ForEach(viewModel.textPostViewModels.indices, id: \.self) { index in
+                            PostView(
+                                viewModel: viewModel.textPostViewModels[index],
+                                postsVM: viewModel, // new
+                                navigationPath: $navigationPath,
+                                namespace: namespace,
+                                onSelectPost: { selectedViewModel in
+                                    sharedViewModel.selectedPost = selectedViewModel
+                                }
+                            )
+                            //                        , onSelect: { _ in selectedPostIndex = index }
                             .padding(.bottom, 8)
+                        }
+                    }
+                    .onAppear {
+                        //                    if let index = selectedPostIndex {
+                        //                        scrollViewProxy.scrollTo(index)
+                        //                    }
                     }
                 }
-                .onAppear {
-//                    if let index = selectedPostIndex {
-//                        scrollViewProxy.scrollTo(index)
-//                    }
-                }
             }
+            .padding(.horizontal, 6)
         }
-        .padding(.horizontal, 6)
     }
 }
 
 #Preview {
-    TextDisco( navigationPath: .constant(NavigationPath()))
+    TextDisco()
         .environmentObject(PostsViewModel()) // Provide a PostsViewModel instance
 
 }

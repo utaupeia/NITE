@@ -196,5 +196,5 @@ struct ProfileElements: View {
 
 
 #Preview {
-    ProfileElements(viewModel: userviewModel, followsOverlay: .constant(false))
+    ProfileElements(viewModel: UserViewModel(), followsOverlay: .constant(false))
 }

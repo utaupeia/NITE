@@ -9,68 +9,118 @@ import SwiftUI
 
 struct GridView: View {
     var imagePosts: [PostViewModel]  // The PostViewModels
-    @State private var isGridView = true
+    @State private var isGridView = false
+    @State private var selectedPost: PostViewModel?
+    @State private var showPopup = false
+    @Namespace private var animationNamespace
+    @EnvironmentObject var sharedViewModel: SharedViewModel
 
     // Define a 3-column grid layout
 
     var body: some View {
-        ScrollView {
-            VStack {
-                // Full view button
-                HStack {
-                    Button(action: {
-                        withAnimation {
-                            isGridView.toggle()
-                        }
-                    }) {
-                        Text(isGridView ? "Full View" : "Grid View")
-                            .padding()
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                }
-                }
-                let columns: [GridItem] = isGridView ? [
-                    GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2),
-                    GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2),
-                    GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2)
-                ] : [GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2)]
-
-                LazyVGrid(columns: columns, spacing: 3) {
-                    // Iterate over the PostViewModels and create image views
-                    ForEach(imagePosts, id: \.post.id) { postViewModel in
-                        // Check if the image exists in the assets
-                        if let imageName = postViewModel.post.images?.first, let uiImage = UIImage(named: imageName) {
-                            ZStack(alignment: .bottomTrailing) {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(height: isGridView ? 220 : .infinity)
-                                    .frame(width: isGridView ? UIScreen.main.bounds.width / 3 - 6 : .infinity)
-                                    .clipped()
-
-                                if let images = postViewModel.post.images, images.count > 1 {
-                                    Image(systemName: "square.stack.fill")
-                                        .padding(4)
-                                        .background(Color.black.opacity(0.7))
-                                        .foregroundColor(.white)
-                                        .font(.caption)
-                                        .clipShape(Circle())
-                                        .padding(4)
-                                }
+        ZStack {
+            ScrollView {
+                VStack {
+                    // Full view button
+                    HStack {
+                        Button(action: {
+                            withAnimation {
+                                isGridView.toggle()
                             }
-                        } else {
-                            // Placeholder in case the image is missing
-                            Rectangle()
-                                .fill(Color.gray)
-                                .aspectRatio(1, contentMode: .fit)
-                                .cornerRadius(10)
+                        }) {
+                            Text(isGridView ? "Full View" : "Grid View")
+                                .padding()
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                    }
+                    }
+                    let columns: [GridItem] = isGridView ? [
+                        GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2),
+                        GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2),
+                        GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2)
+                    ] : [GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2)]
+
+                    LazyVGrid(columns: columns, spacing: 3) {
+                        // Iterate over the PostViewModels and create image views
+                        ForEach(imagePosts, id: \.post.id) { postViewModel in
+                            // Check if the image exists in the assets
+                            if let imageName = postViewModel.post.images?.first, let uiImage = UIImage(named: imageName) {
+                                ZStack() {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(height: isGridView ? 220 : .infinity)
+                                        .frame(width: isGridView ? UIScreen.main.bounds.width / 3 - 6 : .infinity)
+                                        .clipped()
+                                        .matchedGeometryEffect(id: postViewModel.post.id, in: animationNamespace)
+                                        .onTapGesture {
+                                            withAnimation(.spring()) {
+                                                sharedViewModel.selectedPost = postViewModel
+                                            }
+                                        }
+                                    
+
+                                    if !isGridView {
+                                        VStack {
+                                            HStack {
+                                                Image(postViewModel.post.author.profilePicture)
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 36, height: 60)
+                                                    .cornerRadius(6)
+                                                    .clipped()
+                                                    .padding(12)
+                                                Spacer()
+                                                
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            HStack {
+                                                Text("\(postViewModel.post.author.username)")
+                                                    .font(.system(size: 12))
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(.white.opacity(0.75))
+                                                    .padding(6)
+                                                
+                                                Spacer()
+                                                if let images = postViewModel.post.images, images.count > 1 {
+                                                    Image(systemName: "square.stack.fill")
+                                                        .padding(4)
+                                                        .background(Color.black.opacity(0.7))
+                                                        .foregroundColor(.white)
+                                                        .font(.caption)
+                                                        .clipShape(Circle())
+                                                        .padding(4)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Placeholder in case the image is missing
+                                Rectangle()
+                                    .fill(Color.gray)
+                                    .aspectRatio(1, contentMode: .fit)
+                                    .cornerRadius(10)
+                            }
                         }
                     }
-                }
-                .cornerRadius(21.0)
-            .padding(.all, 3)
-            }  // Padding around the entire grid
-            .padding(.top, 40)
+                    .cornerRadius(21.0)
+                .padding(.all, 3)
+                }  // Padding around the entire grid
+                .padding(.top, 40)
+            }
+//            if showPopup, let selectedPost = selectedPost {
+//                PopupPostView(postViewModel: selectedPost, namespace: animationNamespace, onDismiss: {
+//                    withAnimation {
+//                        showPopup = false
+//                    }
+//                })
+//                .transition(.opacity)
+//                .zIndex(1)
+//            }
+
         }
     }
 }
@@ -103,5 +153,29 @@ class MockPostViewModel: PostViewModel {
         // Assuming your PostViewModel expects a 'Post' model on initialization. Adjust as per your actual initializer.
         super.init(post: Post(id: UUID(), author: User(id: UUID(), username: "testUser", profilePicture: "testImage", selectedTheme: sampleTheme, dateJoined: Date(), location: "some")
                               , timestamp: Date(), textContent: "Test post", images: ["image1", "image2"], videos: nil, socialInteractions: SocialInteractionsManager()), currentUser: mockCurrentUser)
+    }
+}
+
+struct FullScreenImageView: View {
+    var uiImage: UIImage
+    var namespace: Namespace.ID
+
+    var body: some View {
+        ZStack {
+            Blur(style: .dark)
+                .onTapGesture {
+                    withAnimation(.spring()) {
+//                        onDismiss()
+                    }
+                }
+                .ignoresSafeArea()
+            
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+                .matchedGeometryEffect(id: uiImage, in: namespace)
+            .edgesIgnoringSafeArea(.all)
+        }
+        // Add gestures or buttons to navigate through the images
     }
 }

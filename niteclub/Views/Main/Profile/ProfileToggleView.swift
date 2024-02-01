@@ -20,7 +20,7 @@ struct ProfileToggleView: View {
     init(currentUser: User, otherUser: User) {
         self.currentUser = currentUser
         self.otherUser = otherUser
-        _viewModel = StateObject(wrappedValue: UserViewModel(user: currentUser))
+        _viewModel = StateObject(wrappedValue: UserViewModel())
     }
 
     var body: some View {
@@ -30,7 +30,6 @@ struct ProfileToggleView: View {
                 ProfileElements(viewModel: viewModel, followsOverlay: $followsOverlay)
 
                 Button(action: {
-                    toggleProfile()
                 }) {
                     Text("Switch to \(isCurrentUser ? "Other User" : "Current User")")
                         .foregroundColor(.white)
@@ -42,16 +41,6 @@ struct ProfileToggleView: View {
         }
     }
 
-    private func toggleProfile() {
-        if isCurrentUser {
-            // Switch to the other user
-            viewModel.toggleUserProfile(to: otherUser)
-        } else {
-            // Switch back to the current user
-            viewModel.toggleUserProfile(to: currentUser)
-        }
-        isCurrentUser.toggle()
-    }
 }
 
 // Sample data for the preview

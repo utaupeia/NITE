@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ExtrasButton: View {
-    @Binding var fullScreenContainer: Bool
     @Binding var showExtras: Bool
     var body: some View {
         Button(action:  {
@@ -16,21 +15,23 @@ struct ExtrasButton: View {
                 showExtras.toggle()
             }
         }) {
-            Circle()
-                .foregroundColor(.black.opacity(0.15))
-                .frame(width: 30, height: 30)
-                .padding(.horizontal, 15)
+            Image(systemName: "square.2.stack.3d")
+                .resizable()
+                .frame(width: 12, height: 12)
+                .foregroundColor(.white)
                 .padding(.vertical, 6)
+                .padding(.horizontal, 18)
                 .overlay(
-                Image(systemName: "square.stack")
-                    .resizable()
-                    .frame(width: 12, height: 12)
-                    .foregroundColor(.white)
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(.white.opacity(0.25), lineWidth: 1)
                 )
+                .padding(.vertical, 3)
+                .padding(.horizontal, 15)
+
         }
     }
 }
 
-//#Preview {
-//    ExtrasButton()
-//}
+#Preview {
+    ExtrasButton(showExtras: .constant(false))
+}

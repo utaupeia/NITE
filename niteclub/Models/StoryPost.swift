@@ -20,6 +20,7 @@ struct StoryItem: Identifiable {
     var views: [User]
     var isCloseFriendsOnly: Bool = false
     
+    
     static let expirationDuration: TimeInterval = 7200 // 2 hours in seconds
 
 
@@ -58,11 +59,11 @@ extension StoryItem {
     }
 }
 
-struct Reply {
-    var user: User
-    var message: String
-    var date: Date
-}
+//struct Reply {
+//    var user: User
+//    var message: String
+//    var date: Date
+//}
 
 extension StoryGroup {
     var totalDuration: TimeInterval {

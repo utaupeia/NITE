@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct ProfileImageContentView: View {
     var user: User
@@ -83,14 +84,14 @@ struct ProfileImageContentView: View {
                         .cornerRadius(12)
                 }
             }
-            .padding(.top, 20)
-
+            .padding(.top, 30)
+            .padding(.bottom, 200)
         }
     }
 }
 
 let imagePosts = SampleData.allPosts.filter { post in
-    post.author.id == sampleUser.id && !(post.images?.isEmpty ?? true)
+    post.author.id == SampleData.userJohn.id && !(post.images?.isEmpty ?? true)
 }.map { post in
     PostViewModel(post: post, currentUser: SampleData.userRickkw) // Create PostViewModel for each post
 }
@@ -101,14 +102,13 @@ let imagePosts = SampleData.allPosts.filter { post in
 //}
 struct ProfileImageContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let sampleUser = SampleData.userRickkw
 
         let imagePosts = SampleData.allPosts.filter { post in
-            post.author.id == sampleUser.id && !(post.images?.isEmpty ?? true)
+            post.author.id == SampleData.userJohn.id && !(post.images?.isEmpty ?? true)
         }.map { post in
-            PostViewModel(post: post, currentUser: sampleUser)
+            PostViewModel(post: post, currentUser: SampleData.userJohn)
         }
 
-        ProfileImageContentView(user: sampleUser, allImagePosts: imagePosts)
+        ProfileImageContentView(user: SampleData.userJohn, allImagePosts: imagePosts)
     }
 }

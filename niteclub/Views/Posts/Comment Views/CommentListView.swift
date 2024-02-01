@@ -8,34 +8,15 @@
 import SwiftUI
 
 struct CommentListView: View {
-    @ObservedObject var viewModel: CommentViewModel
-    
+    @ObservedObject var postViewModel: PostViewModel
+
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(viewModel.comments, id: \.id) { comment in
+                ForEach(postViewModel.post.socialInteractions.comments, id: \.id) { comment in
                     VStack(alignment: .leading) {
                         
-                        HStack(alignment: .top) {
-                            // Comment Details
-                            Image(comment.author.profilePicture)
-                                .resizable()
-                                .frame(width: 36, height: 60)
-                                .cornerRadius(6)
-                            
-                            VStack(alignment: .leading) {
-                                Text(comment.author.username) // Assuming User has a username property
-                                    .fontWeight(.bold)
-                                
-                                Text(comment.text)
-                                Text(TimeSinceFormatter.timeSince(from: comment.timestamp))
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-
-                            }
-                        }
-                        .padding(.vertical)
-                        
+                        CommentView(comment: comment)
 
                         // Like and Reply Buttons
                         HStack {
@@ -44,21 +25,22 @@ struct CommentListView: View {
                             Button("Reply") {
                                 // Handle reply action
                             }
+                            .padding(6)
+
                             
                             Spacer()
                             
                             // Like Button with Count
                             Button(action: {
-                                viewModel.likeComment(comment.id, by: sampleUser)
+//                                viewModel.likeComment(comment.id, by: sampleUser)
                             }) {
                                 HStack {
                                     Image(systemName: "heart") // Heart icon
                                     Text("\(comment.likes.count)")
+                                        .monospaced()
                                 }
+                                .padding(6)
                             }
-
-
-
                         }
                         .buttonStyle(PlainButtonStyle())
                         .font(.caption)
@@ -68,13 +50,11 @@ struct CommentListView: View {
 
                     }
                 }
-                
             }
             .padding(.horizontal)
         }
     }
 }
-
 
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
@@ -85,10 +65,13 @@ private let dateFormatter: DateFormatter = {
 
 
 #Preview {
-    CommentListView(viewModel: MockCommentViewModel())
+    CommentListView(postViewModel: PostViewModel(post: SampleData.emmaImagePost, currentUser: SampleData.bobby))
 }
 
 struct MockData {
+    static let comment: Comment = Comment(author: SampleData.donna, text: "Great post!", timestamp: Date())
+
+    
     static let comments: [Comment] = [
         Comment(author: User(username: "sampleguy", profilePicture: "image33", selectedTheme: sampleTheme, dateJoined: Date(), location: "az"), text: "Great post!", timestamp: Date()),
         Comment(author: User(username: "otherfella", profilePicture: "image23", selectedTheme: sampleTheme, dateJoined: Date(), location: "ny"), text: "I completely agree!", timestamp: Date()),

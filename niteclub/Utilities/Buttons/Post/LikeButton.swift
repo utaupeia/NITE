@@ -15,24 +15,6 @@ struct LikeButton: View {
 
     var body: some View {
         VStack {
-            // Toggle for user status
-//            Picker("User Status", selection: $selectedStatus) {
-//                Text("Default").tag(UserStatus.default)
-//                Text("Member").tag(UserStatus.member)
-//                Text("Forever Member").tag(UserStatus.foreverMember)
-//                Text("Admin").tag(UserStatus.admin)
-//            }
-//            .pickerStyle(SegmentedPickerStyle())
-//            .onChange(of: selectedStatus) {
-//                viewModel.toggleUserStatus(forTesting: selectedStatus)
-//            }
-
-            // Toggle for being post creator
-//            Toggle("Is Post Creator", isOn: $isPostCreator)
-//                .onChange(of: isPostCreator) {
-//                    viewModel.togglePostCreator(forTesting: isPostCreator)
-//                }
-
 
             // Like button
             Button(action: {
@@ -51,17 +33,20 @@ struct LikeButton: View {
 
                 } else {
                     // Display the heart icon
-                    Image(systemName: "heart")
+                    Image(systemName: "suit.heart")
                         .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.white.opacity(0.5))
+                        .frame(width: 24, height: 18)
+                        .foregroundColor(.white)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 15)
+                        .background(
+                            RoundedRectangle(cornerRadius: 24)
+                                .stroke(.white.opacity(0.05), lineWidth: 1)
+                        )
+                        .padding(.leading)
+
                 }
             }
-            .padding(10)
-            .background(
-                Blur(style: .dark)
-                    .cornerRadius(30)
-            )
             .sheet(isPresented: $viewModel.isLikesListVisible) {
                 // Your view for displaying the list of likes
                 Text("List of Likes")

@@ -9,15 +9,20 @@ import SwiftUI
 
 struct GridView: View {
     var imagePosts: [PostViewModel]  // The PostViewModels
+<<<<<<< HEAD
     @State private var isGridView = false
     @State private var selectedPost: PostViewModel?
     @State private var showPopup = false
     @Namespace private var animationNamespace
     @EnvironmentObject var sharedViewModel: SharedViewModel
+=======
+    @State private var isGridView = true
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     // Define a 3-column grid layout
 
     var body: some View {
+<<<<<<< HEAD
         ZStack {
             ScrollView {
                 VStack {
@@ -121,6 +126,65 @@ struct GridView: View {
 //                .zIndex(1)
 //            }
 
+=======
+        ScrollView {
+            VStack {
+                // Full view button
+                HStack {
+                    Button(action: {
+                        withAnimation {
+                            isGridView.toggle()
+                        }
+                    }) {
+                        Text(isGridView ? "Full View" : "Grid View")
+                            .padding()
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                }
+                }
+                let columns: [GridItem] = isGridView ? [
+                    GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2),
+                    GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2),
+                    GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2)
+                ] : [GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: 2)]
+
+                LazyVGrid(columns: columns, spacing: 3) {
+                    // Iterate over the PostViewModels and create image views
+                    ForEach(imagePosts, id: \.post.id) { postViewModel in
+                        // Check if the image exists in the assets
+                        if let imageName = postViewModel.post.images?.first, let uiImage = UIImage(named: imageName) {
+                            ZStack(alignment: .bottomTrailing) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(height: isGridView ? 220 : .infinity)
+                                    .frame(width: isGridView ? UIScreen.main.bounds.width / 3 - 6 : .infinity)
+                                    .clipped()
+
+                                if let images = postViewModel.post.images, images.count > 1 {
+                                    Image(systemName: "square.stack.fill")
+                                        .padding(4)
+                                        .background(Color.black.opacity(0.7))
+                                        .foregroundColor(.white)
+                                        .font(.caption)
+                                        .clipShape(Circle())
+                                        .padding(4)
+                                }
+                            }
+                        } else {
+                            // Placeholder in case the image is missing
+                            Rectangle()
+                                .fill(Color.gray)
+                                .aspectRatio(1, contentMode: .fit)
+                                .cornerRadius(10)
+                        }
+                    }
+                }
+                .cornerRadius(21.0)
+            .padding(.all, 3)
+            }  // Padding around the entire grid
+            .padding(.top, 40)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
         }
     }
 }

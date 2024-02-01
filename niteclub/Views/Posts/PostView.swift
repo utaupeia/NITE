@@ -13,6 +13,7 @@ class SharedViewModel: ObservableObject {
 
 struct PostView: View {
     @ObservedObject var viewModel: PostViewModel
+<<<<<<< HEAD
     @ObservedObject var postsVM: PostsViewModel
     @Binding var navigationPath: NavigationPath  // Add NavigationPath binding
     var namespace: Namespace.ID
@@ -27,6 +28,18 @@ struct PostView: View {
                 TextPostView(viewModel: viewModel, navigationPath: $navigationPath, onSelectPost: onSelectPost)
                     .matchedGeometryEffect(id: viewModel.id, in: namespace)
 
+=======
+    @Binding var navigationPath: NavigationPath  // Add NavigationPath binding
+    
+//    var onSelect: (Int) -> Void  // Closure to call when a post is selected
+
+    var body: some View {
+        VStack {
+
+            switch viewModel.post.type {
+            case .text:
+                TextPostView(viewModel: viewModel, navigationPath: $navigationPath)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
             case .image:
                 ImagePostView(viewModel: viewModel, navigationPath: $navigationPath, onSelectPost: onSelectPost)
                     .matchedGeometryEffect(id: viewModel.id, in: namespace)
@@ -86,12 +99,17 @@ let videoPostViewModel = PostViewModel(post: videoPost, currentUser: mockCurrent
 //    }
 //}
 #Preview {
+<<<<<<< HEAD
     PostView(
         viewModel: PostViewModel(post: vidPost, currentUser: sampleUser), postsVM: PostsViewModel(),
         navigationPath: .constant(NavigationPath()),
         namespace: Namespace().wrappedValue,
         onSelectPost: { _ in }
     )
+=======
+    PostView(viewModel: PostViewModel(post: textPost, currentUser: mockCurrentUser), navigationPath: .constant(NavigationPath()))
+    //, onSelect: { _ in }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 }
 
 //

@@ -12,12 +12,19 @@ struct AppTabBarView: View {
     @State private var selection: String = "profile"
     @State private var tabSelection: TabBarItem = .profile
     @StateObject private var tabBarState = TabBarState()
+<<<<<<< HEAD
     @StateObject var userviewModel = UserViewModel()
     @State private var discoselection = 0 // This will be passed to DiscoTabView
     @StateObject private var postsViewModel = PostsViewModel()
     @StateObject private var storiesViewModel = StoriesViewModel(stories: SampleData.sampleStories, currentUser: SampleData.userJohn)
     @StateObject private var sharedStoryState = SharedStoryState()
     @StateObject private var engagementViewModel = SharedViewModel()
+=======
+    @StateObject var userviewModel = UserViewModel(user: sampleUser)
+    @State private var discoselection = 0 // This will be passed to DiscoTabView
+    @StateObject private var postsViewModel = PostsViewModel()
+
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     var body: some View {
         
         ZStack {
@@ -26,6 +33,7 @@ struct AppTabBarView: View {
 
             TabBarContainerView(selection: $tabSelection, userViewModel: UserViewModel(user: SampleData.userJohn)) {
 
+<<<<<<< HEAD
                 CreatePostView(viewModel: CreatePostViewModel(currentUser: SampleData.userJohn), adViewModel: AdViewModel())
                     .ignoresSafeArea()
                     .tabBarItem(tab: .create, selection: $tabSelection)
@@ -33,6 +41,15 @@ struct AppTabBarView: View {
                 DiscoTabView()
                     .ignoresSafeArea()
                     .tabBarItem(tab: .disco, selection: $tabSelection)
+=======
+            DiscoTabView(selection: $discoselection)
+                .ignoresSafeArea()
+                .tabBarItem(tab: .disco, selection: $tabSelection)
+
+            ProfileContentTabView(user: sampleUser, navigationPath: .constant(NavigationPath()))
+                .ignoresSafeArea()
+                .tabBarItem(tab: .profile, selection: $tabSelection)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
                 ProfileContentTabView(user: SampleData.userJohn, navigationPath: .constant(NavigationPath()))
                     .ignoresSafeArea()
@@ -54,6 +71,12 @@ struct AppTabBarView: View {
             .environmentObject(storiesViewModel)
             .environmentObject(sharedStoryState)
         }
+<<<<<<< HEAD
+=======
+        .environmentObject(tabBarState)
+        .environmentObject(postsViewModel) // PostsViewModel to DiscoTabView + Children
+
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     }
 }
 

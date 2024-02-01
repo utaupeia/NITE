@@ -12,6 +12,7 @@ import AVKit
 
 struct ProfileContentTabView: View {
     var user: User
+<<<<<<< HEAD
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var postsViewModel: PostsViewModel
@@ -68,10 +69,57 @@ struct ProfileContentTabView: View {
                 navBar
 
             }
+=======
+    @EnvironmentObject var postsViewModel: PostsViewModel  // Inject PostsViewModel
+    @Binding var navigationPath: NavigationPath            // NavigationPath binding
+
+    let columns: [GridItem] = [
+        GridItem(.flexible(),spacing: nil, alignment: nil),
+    ]
+    
+    @State private var isPlaying = false
+    @State private var postText: String = "Sample Text"
+    @State private var selectedTabIndex: Int = 0
+    let tabTitles = ["feed", "pics", "vids", "themes", "likes"]
+    @State private var showLikes = false
+    var body: some View {
+        ZStack {
+            Color.gray
+            ZStack(alignment: .top) {
+               
+                TabView(selection: $selectedTabIndex) {
+                    ProfilePostFeedView(posts: [imagePostVM, textPostVM], user: sampleUser)
+                        .tag(0)
+                    ProfileImageContentView(user: sampleUser)
+                        .tag(1)
+                    ProfileVideoContentView(user: sampleUser)
+                        .tag(2)
+                    ProfileThemeView(user: sampleUser)
+                        .tag(3)
+                    LikedPostsView(likedPosts: [samplePost], user: sampleUser)
+                        .tag(4)
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                
+                ProfileTabBar(titles: tabTitles, selectedIndex: $selectedTabIndex)
+                    .padding(.top, 60)
+                
+                HStack {
+                    backButton
+                        .padding(.top, 60)
+
+                    Spacer()
+                }
+            }
+            
+//            topContent()
+                .foregroundColor(.white)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
         }
         .ignoresSafeArea()
         .navigationBarBackButtonHidden(true)
     }
+<<<<<<< HEAD
     var navBar: some View {
         VStack {
             ZStack(alignment: .top)  {
@@ -110,6 +158,8 @@ struct ProfileContentTabView: View {
             Spacer()
         }
     }
+=======
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     
     var backButton: some View {
         Button(action: {
@@ -120,6 +170,7 @@ struct ProfileContentTabView: View {
                 if !navigationPath.isEmpty {
                     navigationPath.removeLast()
                 }
+<<<<<<< HEAD
                 presentationMode.wrappedValue.dismiss()
 
             }
@@ -155,13 +206,68 @@ struct ProfileContentTabView: View {
                     }
                 }
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0), value: selectedIndex)
+=======
+            }
+        }) {
+            Image(systemName: "arrow.left")  // Example back arrow icon
+            Text("Back")
+        }
+        .padding()
+
+    }
+
+}
+
+struct ProfileTabBar: View {
+    let titles: [String]
+    @Binding var selectedIndex: Int
+    @Namespace private var tabAnimation // Namespace for the animation
+    var body: some View {
+        ScrollViewReader { reader in
+            HStack(spacing: 6) { // Adjust spacing as needed
+                ForEach(Array(titles.enumerated()), id: \.offset) { index, title in
+                    ZStack {
+                        // This view represents the unselected state
+                        if index != selectedIndex {
+                            Circle()
+                                .fill(Color.white.opacity(0.5))
+                                .matchedGeometryEffect(id: "tab\(index)", in: tabAnimation, properties: .frame, anchor: .center, isSource: true)
+                                .frame(width: 4, height: 4)
+                        }
+                        // This view represents the selected state
+                        if index == selectedIndex {
+                            Text(title)
+                                .fontWeight(.regular)
+                                .foregroundColor(.white)
+                                .matchedGeometryEffect(id: "tab\(index)", in: tabAnimation, properties: .frame, anchor: .center, isSource: false)
+                                .font(.system(size: 13))
+                        }
+                    }
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            selectedIndex = index
+                            reader.scrollTo(index, anchor: .center) // Scroll to the selected item
+                        }
+                    }
+                }
+            }
+            .padding([.leading, .trailing], 20) // Adjust padding as needed
+            .onChange(of: selectedIndex) { [selectedIndex] in
+                withAnimation(.spring()) {
+                    reader.scrollTo(selectedIndex, anchor: .center)
+                }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
             }
         }
     }
 }
 
 #Preview {
+<<<<<<< HEAD
     ProfileContentTabView(user: SampleData.userJohn, navigationPath: .constant(NavigationPath()))
         .environmentObject(PostsViewModel())
         .environmentObject(UserViewModel())
+=======
+    ProfileContentTabView(user: sampleUser, navigationPath: .constant(NavigationPath()))
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 }

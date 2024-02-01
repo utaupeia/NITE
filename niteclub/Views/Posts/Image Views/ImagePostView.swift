@@ -11,6 +11,7 @@ struct ImagePostView: View {
     @ObservedObject var viewModel: PostViewModel
     @EnvironmentObject var postsViewModel: PostsViewModel
 
+<<<<<<< HEAD
     @State private var navigateToProfile: Bool = false
     @Binding var navigationPath: NavigationPath
 
@@ -18,6 +19,8 @@ struct ImagePostView: View {
 
     var onSelectPost: (PostViewModel) -> Void
 
+=======
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0) {
@@ -46,7 +49,14 @@ struct ImagePostView: View {
                 .cornerRadius(12)
                 
                 Button(action: {
+<<<<<<< HEAD
                     withAnimation(.spring) {navigateToProfile(viewModel.post.author)}
+=======
+                    // This assumes that your Post has a reference to the user who created it
+                    withAnimation(.spring) {
+                        postsViewModel.selectUser(viewModel.post.author)
+                    }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                 }) {
                     Image(viewModel.post.author.profilePicture)
                         .resizable()
@@ -61,7 +71,14 @@ struct ImagePostView: View {
                 
                 HStack {
                     Button(action: {
+<<<<<<< HEAD
                         withAnimation(.spring) {navigateToProfile(viewModel.post.author)}
+=======
+                        // This assumes that your Post has a reference to the user who created it
+                        withAnimation(.spring) {
+                            postsViewModel.selectUser(viewModel.post.author)
+                        }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                     }) {
                         Text(viewModel.post.author.username)
                             .font(.system(size: 13))

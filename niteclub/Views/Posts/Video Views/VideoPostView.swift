@@ -11,6 +11,7 @@ import AVKit
 struct VideoPostView: View {
     @ObservedObject var viewModel: PostViewModel
     @EnvironmentObject var postsViewModel: PostsViewModel
+<<<<<<< HEAD
 
     @StateObject private var videoPlayerViewModel: VideoPlayerViewModel
     @State private var navigateToProfile: Bool = false
@@ -34,12 +35,15 @@ struct VideoPostView: View {
             fatalError("Video URL is not available")
         }
     }
+=======
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ZStack(alignment: .topLeading) {
                 // Initialize the videoPlayerViewModel if there's a video URL
                 
+<<<<<<< HEAD
                 
                 VideoPlayerView(viewModel: videoPlayerViewModel)
                     .onTapGesture {
@@ -82,6 +86,17 @@ struct VideoPostView: View {
                         .padding(9)
                         
                     }
+=======
+                Button(action: {
+                    // This assumes that your Post has a reference to the user who created it
+                    postsViewModel.selectUser(viewModel.post.author)
+                }) {
+                    Image(viewModel.post.author.profilePicture)
+                        .resizable()
+                        .frame(width: 36, height: 60)
+                        .cornerRadius(6)
+                        .padding(9)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                 }
             }
             .frame(width: .infinity)

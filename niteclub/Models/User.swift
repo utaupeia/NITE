@@ -45,6 +45,7 @@ struct User: Identifiable, Equatable, Hashable {
     var likedPosts: [Post] /*= []*/ // Posts that the user has liked.
     var invitedBy: UUID?  // ID of the user who invited them
 
+<<<<<<< HEAD
 //
 //     closeFriends [] mutual following / follower relationship, electively added to friends list
 //     createdThemes / themes user has created
@@ -67,6 +68,29 @@ struct User: Identifiable, Equatable, Hashable {
 //     blockedUsers / users that have been blocked
 //     has notifications turned on
 //    
+=======
+    // closeFriends [] mutual following / follower relationship, electively added to friends list
+    // createdThemes / themes user has created
+    // isVerified / Bool
+    // birthdate
+    // email
+    // invited by / which user invite code was used to join app if any
+    // first name
+    // last name
+    // account number / only needed for theme creation
+    // routing number / only needed for theme creation
+    // gender ()
+    // websiteURL / added website from user
+    // postsCreated
+    // commentsMade / all comments made on others posts
+    // lastActive / last date active
+    // likedSongs / songs user has liked
+    // followsYou / user relationship
+    // isBlocked / is user blocked by
+    // blockedUsers / users that have been blocked
+    // has notifications turned on
+    
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     
     // Initializer
     init(id: UUID = UUID(), username: String, profilePicture: String, following: [UUID] = [], followers: [UUID] = [], lurking: Int = 0, status: UserStatus = .default, acquiredThemes: [Theme] = [], selectedTheme: Theme, dateJoined: Date, location: String, likedPosts: [Post] = [], invitedBy: UUID? = nil) {

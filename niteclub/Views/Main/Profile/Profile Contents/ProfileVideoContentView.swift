@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+<<<<<<< HEAD
 import AVKit
 
 struct ProfileVideoContentView: View {
@@ -57,3 +58,37 @@ struct ProfileVideoContentView_Previews: PreviewProvider {
 }
 
 
+=======
+
+struct ProfileVideoContentView: View {
+    var user: User
+
+    
+       let columns: [GridItem] = [
+           GridItem(.flexible(),spacing: nil, alignment: nil),
+       ]
+       
+       var body: some View {
+           
+           ScrollView(showsIndicators: false) {
+                   LazyVGrid(columns: columns) {
+                                   ForEach(0..<20) { index in
+                                       Blur(style: .dark)
+                                           .frame(width: .infinity)
+                                           .frame(height: 200)
+                                           .cornerRadius(24)
+//                                       LandscapeVideoPostView()
+                       }
+                   }
+               
+               .padding(.top, 100)
+           }
+           .padding(.horizontal, 6)
+       }
+   }
+
+
+#Preview {
+    ProfileVideoContentView(user: sampleUser)
+}
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee

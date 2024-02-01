@@ -15,6 +15,27 @@ struct LikeButton: View {
 
     var body: some View {
         VStack {
+<<<<<<< HEAD
+=======
+            // Toggle for user status
+//            Picker("User Status", selection: $selectedStatus) {
+//                Text("Default").tag(UserStatus.default)
+//                Text("Member").tag(UserStatus.member)
+//                Text("Forever Member").tag(UserStatus.foreverMember)
+//                Text("Admin").tag(UserStatus.admin)
+//            }
+//            .pickerStyle(SegmentedPickerStyle())
+//            .onChange(of: selectedStatus) {
+//                viewModel.toggleUserStatus(forTesting: selectedStatus)
+//            }
+
+            // Toggle for being post creator
+//            Toggle("Is Post Creator", isOn: $isPostCreator)
+//                .onChange(of: isPostCreator) {
+//                    viewModel.togglePostCreator(forTesting: isPostCreator)
+//                }
+
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
             // Like button
             Button(action: {
@@ -28,6 +49,7 @@ struct LikeButton: View {
             }) {
                 if viewModel.isLikeCountVisible {
                     // Display the like count
+<<<<<<< HEAD
                     Text("\(viewModel.likesCount) \(viewModel.likesCount == 1 ? "Like" : "Likes")")
                         .foregroundColor(.white)
 
@@ -45,6 +67,12 @@ struct LikeButton: View {
                         )
                         .padding(.leading)
 
+=======
+                    Text("\(viewModel.likesCount)")
+                } else {
+                    // Display the heart icon
+                    Image(systemName: "heart")
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                 }
             }
             .sheet(isPresented: $viewModel.isLikesListVisible) {
@@ -56,7 +84,10 @@ struct LikeButton: View {
 }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 struct LikesListView: View {
     var likes: [User]
 

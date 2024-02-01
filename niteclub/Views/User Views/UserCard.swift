@@ -133,7 +133,11 @@ struct UserCard: View {
 let sampleTheme = Theme(
     id: UUID(),
     name: "Sample Theme",
+<<<<<<< HEAD
     content: ThemeContent(id: UUID(), themeURL: "image31"), // This URL is just a placeholder
+=======
+    content: Theme(themeURL: "image33"), // This URL is just a placeholder
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     price: 0.0, // It's a free theme in this example
     creationDate: Date(),
     approved: true // This sample theme is approved

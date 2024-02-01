@@ -9,11 +9,15 @@ import SwiftUI
 import AVKit
 
 struct VideoDisco: View {
+<<<<<<< HEAD
     @EnvironmentObject var viewModel: PostsViewModel
     @State private var navigationPath = NavigationPath()
     @Namespace private var namespace
     @EnvironmentObject var sharedViewModel: SharedViewModel
     @State private var activeVideoID: UUID?
+=======
+    @EnvironmentObject var viewModel: PostsViewModel // Access PostsViewModel from the environment
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     var body: some View {
         NavigationStack(path: $navigationPath) {

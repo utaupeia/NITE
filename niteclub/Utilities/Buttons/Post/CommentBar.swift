@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommentBar: View {
+<<<<<<< HEAD
     @ObservedObject var postViewModel: PostViewModel
     @State private var newComment: String = ""
 
@@ -46,3 +47,13 @@ struct CommentBar: View {
         }
     }
 }
+=======
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    }
+}
+
+#Preview {
+    CommentBar()
+}
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee

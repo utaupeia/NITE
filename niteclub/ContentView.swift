@@ -15,6 +15,7 @@ struct ContentView: View {
         @State private var navigationPath = NavigationPath()
 
         var body: some View {
+<<<<<<< HEAD
             ZStack {
                 Blur(style: .dark).ignoresSafeArea()
                 ThemeDisco()
@@ -34,6 +35,23 @@ struct ContentView: View {
 //                    }
 //                }
 //            }
+=======
+            NavigationStack(path: $navigationPath) {
+                VStack {
+                    Button("Go to Details View") {
+                        navigationPath.append("DetailsView")
+                    }
+                }
+                .navigationDestination(for: String.self) { identifier in
+                    switch identifier {
+                    case "DetailsView":
+                        DetailsView(navigationPath: $navigationPath)
+                    default:
+                        Text("Unknown destination")
+                    }
+                }
+            }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
         }
     }
 

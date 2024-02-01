@@ -26,8 +26,12 @@ struct TabBarContainerView<Content:View>: View {
     
     @EnvironmentObject var tabBarState: TabBarState
     @ObservedObject var userViewModel: UserViewModel  // Your view model
+<<<<<<< HEAD
 //    @EnvironmentObject var userViewModel: UserViewModel
 
+=======
+    
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     @State private var selectedUserViewModel: UserViewModel?
 
 //    let partyScreen = PartyScreen()
@@ -53,12 +57,15 @@ struct TabBarContainerView<Content:View>: View {
 
     @State private var selectedUser: User?
     @EnvironmentObject var postsViewModel: PostsViewModel
+<<<<<<< HEAD
     @EnvironmentObject var storiesViewModel: StoriesViewModel
     @EnvironmentObject var sharedStoryState: SharedStoryState
     @Namespace var animationNamespace // Declare a namespace
 
     @Namespace private var namespace
     @EnvironmentObject var sharedViewModel: SharedViewModel
+=======
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     var body: some View {
         NavigationView {
@@ -76,12 +83,18 @@ struct TabBarContainerView<Content:View>: View {
                             if selection == .disco {
                                 // Display the profile elements for the selected user
                                 if let selectedUser = postsViewModel.selectedUser {
+<<<<<<< HEAD
                                     // Create a new ViewModel for the selected user
                                     let selectedUserViewModel = UserViewModel(user: selectedUser)
                                     ProfileElements(viewModel: selectedUserViewModel, followsOverlay: $followOverlay)
                                         .padding(.vertical, 12)
                                 }
 
+=======
+                                    ProfileElements(viewModel: UserViewModel(user: selectedUser), followsOverlay: $followOverlay)
+                                        .padding(.vertical, 12)
+                                }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                             }
                             
                             if selection == .profile {
@@ -286,9 +299,12 @@ struct containersample_Previews: PreviewProvider {
         }
         .environmentObject(TabBarState())
         .environmentObject(PostsViewModel())
+<<<<<<< HEAD
         .environmentObject(SharedViewModel())
         .environmentObject(StoriesViewModel(stories: SampleData.sampleStories, currentUser: SampleData.userJohn))
         .environmentObject(SharedStoryState())
         
+=======
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     }
 }

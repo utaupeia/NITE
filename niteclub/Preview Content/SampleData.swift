@@ -39,6 +39,7 @@ struct SampleData {
 
 
     // Users
+<<<<<<< HEAD
     static let userJohn = User(id: UUID(), username: "johndeez", profilePicture: "image1", following: [], followers: [], lurking: 332, status: .default, acquiredThemes: [sampleTheme,sampleTheme1,sampleTheme2,sampleTheme3,sampleTheme4, sampleTheme5,sampleTheme6], selectedTheme: sampleTheme4, dateJoined: Date(), location: "USA")
     static let userEmma = User(id: UUID(), username: "emma", profilePicture: "image10", following: [], followers: [], lurking: 129, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme2, dateJoined: Date(), location: "USA")
     static let userRobert = User(id: UUID(), username: "robertg", profilePicture: "image19", following: [], followers: [], lurking: 31, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme3, dateJoined: Date(), location: "USA")
@@ -61,6 +62,14 @@ struct SampleData {
     static let mozart = User(id: UUID(), username: "mozart", profilePicture: "image32", following: [], followers: [], lurking: 531111, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
     static let ekkstacy = User(id: UUID(), username: "ii_ii", profilePicture: "image16", following: [], followers: [], lurking: 5756, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme6, dateJoined: Date(), location: "nyc", likedPosts: [])
 
+=======
+    static let userJohn = User(id: UUID(), username: "johndeez", profilePicture: "image1", following: [], followers: [], lurking: 7832, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
+    static let userEmma = User(id: UUID(), username: "emma", profilePicture: "image10", following: [], followers: [], lurking: 322, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
+    static let userRobert = User(id: UUID(), username: "robertg", profilePicture: "image19", following: [], followers: [], lurking: 4257, status: .default, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "USA")
+    static let userBuhle = User(id: UUID(), username: "buhle", profilePicture: "image42", following: [], followers: [], lurking: 35988, status: .foreverMember, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let userRickkw = User(id: UUID(), username: "rickkw", profilePicture: "image32", following: [], followers: [], lurking: 5928, status: .foreverMember, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "nyc", likedPosts: [])
+    static let userYannie = User(id: UUID(), username: "yannie", profilePicture: "image48", following: [], followers: [], lurking: 5928, status: .admin, acquiredThemes: [sampleTheme], selectedTheme: sampleTheme, dateJoined: Date(), location: "nyc", likedPosts: [])
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     // ... as many users as you want for variety.
     
@@ -127,12 +136,16 @@ struct SampleData {
 
 extension SampleData {
     // Posts by John
+<<<<<<< HEAD
     static let johnTextPost = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "John's amazing text post!", images: nil, videos: nil, socialInteractions: SocialInteractionsManager(
         comments: [],
         likes: [SampleData.userEmma, SampleData.userRobert], // Predefined likes
         reposts: [SampleData.faye, SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie],
         quotes: []
 ))
+=======
+    static let johnTextPost = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "John's amazing text post!", images: nil, videos: nil, socialInteractions: SocialInteractionsManager())
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     static let johnImagePost = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "where is this caption", images: ["image32"], videos: nil, socialInteractions: SocialInteractionsManager())
     static let johnImagePost2 = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "testing the three image look", images: ["image6", "image5", "image1"], videos: nil, socialInteractions: SocialInteractionsManager())
 
@@ -140,6 +153,7 @@ extension SampleData {
 
     // Posts by Emma
     static let emmaVideoPost = Post(id: UUID(), author: userEmma, timestamp: Date(), textContent: "Emma's vacation!", images: ["image18"], videos: nil, socialInteractions: SocialInteractionsManager())
+<<<<<<< HEAD
     static let emmaImagePost = Post(id: UUID(), author: userEmma, timestamp: Date(), textContent: "look at my pics!", images: ["image7", "image3"], videos: nil, socialInteractions: SocialInteractionsManager(
         comments: [
             Comment(author: SampleData.donna, text: "mid ass post!", timestamp: Date()),
@@ -151,6 +165,9 @@ extension SampleData {
         likes: [SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie], // Predefined likes
         reposts: [SampleData.faye, SampleData.donna, SampleData.userEmma, SampleData.userRobert,SampleData.carrie],
         quotes: []))
+=======
+    static let emmaImagePost = Post(id: UUID(), author: userEmma, timestamp: Date(), textContent: "look at my pics!", images: ["image7", "image3"], videos: nil, socialInteractions: SocialInteractionsManager())
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     // ...
 
@@ -193,6 +210,7 @@ extension SampleData {
     static let johnImagePost23 = Post(id: UUID(), author: userJohn, timestamp: Date(), textContent: "where is this caption", images: ["image32"], videos: nil, socialInteractions: SocialInteractionsManager())
 
     static let yanniepost = Post(id: UUID(), author: userYannie, timestamp: Date(), textContent: "im yannie hello hi", images: ["image44" , "image46", "image47"], videos: nil, socialInteractions: SocialInteractionsManager())
+<<<<<<< HEAD
     
     static let vidPost0 = Post(id: UUID(), author: userYannie, timestamp: Date(), textContent: "im yannie hello hi", images: nil,         videos: [Bundle.main.url(forResource: "samplevideo", withExtension: "mov")?.absoluteString ?? ""],
  socialInteractions: SocialInteractionsManager())
@@ -273,4 +291,9 @@ extension SampleData {
 
     static let sampleStories: [Story] = [johnStories, emmaStories, rickStories]
 
+=======
+
+    // Gather them for easy access and use
+    static let allPosts: [Post] = [yanniepost,text0, image46, image44, johnTextPost, image42, johnImagePost,image1,image11, image12, image2, image3, emmaVideoPost, robertTextPost, image4, image45, emmaImagePost, robertImagePost, johnImagePost2, text1, text12, text2, text11, text3, text4, text5, text6, text10].shuffled() // Add all the posts here
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 }

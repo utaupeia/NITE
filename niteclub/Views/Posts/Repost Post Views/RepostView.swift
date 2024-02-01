@@ -21,6 +21,7 @@ struct RepostView: View {
             }
             .padding(3)
 
+<<<<<<< HEAD
             PostView(
                 viewModel: viewModel,
                 postsVM: PostsViewModel(), // new
@@ -28,6 +29,9 @@ struct RepostView: View {
                 namespace: Namespace().wrappedValue, // Provide a dummy namespace
                 onSelectPost: { _ in } // Dummy closure for onSelectPost
             )
+=======
+            PostView(viewModel: PostViewModel(post: quote.post, currentUser: mockCurrentUser), navigationPath: .constant(NavigationPath()))
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
         }
         .padding()
         .cornerRadius(8)

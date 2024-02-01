@@ -9,12 +9,16 @@ import SwiftUI
 import Combine
 
 class UserViewModel: ObservableObject {
+<<<<<<< HEAD
     @Published var user: User?
     @Published var userIsFollowed: Bool = false
     @Published var userIsCloseFriend: Bool = false
 
     @Published var allUsers: [User] = UserDataManager.allUsers
     @Published var pastSearchedUsers = [User]()
+=======
+    @Published var user: User
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     @Published var isLoading: Bool = false
     @Published var error: String?
@@ -63,6 +67,15 @@ class UserViewModel: ObservableObject {
             }
         }
     }
+    
+    func toggleUserProfile(to newUser: User) {
+        self.user = newUser
+    }
+
+    func updateUser(_ newUser: User) {
+        user = newUser
+    }
+
 
     // MARK: CREATING USER
     func someFunctionCreatingUser() {

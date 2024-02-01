@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+<<<<<<< HEAD
 import AVKit
 
 struct PopupPostView: View {
@@ -29,6 +30,14 @@ struct PopupPostView: View {
                       height: isRotated ? size.width : size.height / 3.5)
     }
     
+=======
+
+struct PopupPostView: View {
+    var postViewModel: PostViewModel
+    var namespace: Namespace.ID
+    var onDismiss: () -> Void
+@State private var showComments = false
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
     var body: some View {
         ZStack {
             Blur(style: .dark)
@@ -38,6 +47,7 @@ struct PopupPostView: View {
                     }
                 }
                 .ignoresSafeArea()
+<<<<<<< HEAD
             
             VStack(alignment: .leading, spacing: 12) {
                 // Quote Content shown for members only
@@ -57,6 +67,13 @@ struct PopupPostView: View {
                 // Post Content
                 Group {
                     // Display the post's image, video, or text content
+=======
+            VStack(alignment: .leading, spacing: 12) {
+                // Post Content
+                Group {
+                    // Display the post's image, video, or text content
+                    // For example, you might have different views based on post type
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                     if let images = postViewModel.post.images, !images.isEmpty {
                         VStack(alignment: .leading, spacing: 0) {
                             ZStack(alignment: .topLeading) {
@@ -75,10 +92,22 @@ struct PopupPostView: View {
                                     // Space between images
                                     
                                 }
+<<<<<<< HEAD
                                 .frame(height: showComments ? 200 : 500)
                                 // button links to profile
                                 Button(action: {
                                     withAnimation(.spring) {
+=======
+                                .frame(height: showComments ? 200 : 600)
+                                // button links to profile
+                                Button(action: {
+                                    // This assumes that your Post has a reference to the user who created it
+                                    withAnimation(.spring) {
+    //                                    postsViewModel.selectUser(viewModel.post.author)
+                //                        navigationPath.append(viewModel.post.author) // Append to the navigation path
+    //                                    navigationPath.append(viewModel.post.author)  // Trigger navigation
+
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                                     }
                                 }) {
                                     Image(postViewModel.post.author.profilePicture)
@@ -94,7 +123,11 @@ struct PopupPostView: View {
                             Button(action: {
                                 // This assumes that your Post has a reference to the user who created it
                                 withAnimation(.spring) {
+<<<<<<< HEAD
                                     //                                            postsViewModel.selectUser(viewModel.post.author)
+=======
+//                                            postsViewModel.selectUser(viewModel.post.author)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                                 }
                             }) {
                                 Text(postViewModel.post.author.username)
@@ -105,6 +138,7 @@ struct PopupPostView: View {
                             }
                             
                             Text(postViewModel.post.textContent ?? "")
+<<<<<<< HEAD
                                 .font(.system(size: 13))
                                 .fontWeight(.regular)
                                 .foregroundColor(.white.opacity(1.0))
@@ -184,20 +218,45 @@ struct PopupPostView: View {
                             
                         }
                         
+=======
+                                    .font(.system(size: 13))
+                                    .fontWeight(.regular)
+                                    .foregroundColor(.white.opacity(1.0))
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.leading, 6)
+
+                        }
+                    } else if let videos = postViewModel.post.videos, !videos.isEmpty {
+                        // Display video content
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                     } else {
                         // Display text content
                         HStack(alignment: .top) {
                             
                             // button links to profile
                             Button(action: {
+<<<<<<< HEAD
                                 withAnimation(.spring) {}
+=======
+                                // This assumes that your Post has a reference to the user who created it
+                                withAnimation(.spring) {
+//                                    postsViewModel.selectUser(viewModel.post.author)
+            //                        navigationPath.append(viewModel.post.author) // Append to the navigation path
+//                                    navigationPath.append(viewModel.post.author)  // Trigger navigation
+
+                                }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                             }) {
                                 Image(postViewModel.post.author.profilePicture)
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 36, height: 60)
                                     .cornerRadius(6)
+<<<<<<< HEAD
                                 //                        .padding(9)
+=======
+            //                        .padding(9)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                                     .clipped()
                             }
                             VStack(alignment: .leading) {
@@ -206,7 +265,11 @@ struct PopupPostView: View {
                                     Button(action: {
                                         // This assumes that your Post has a reference to the user who created it
                                         withAnimation(.spring) {
+<<<<<<< HEAD
                                             //                                            postsViewModel.selectUser(viewModel.post.author)
+=======
+//                                            postsViewModel.selectUser(viewModel.post.author)
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                                         }
                                     }) {
                                         Text(postViewModel.post.author.username)
@@ -217,6 +280,7 @@ struct PopupPostView: View {
                                     
                                     Spacer()
                                     
+<<<<<<< HEAD
                                     Text(postViewModel.time)
                                         .font(.system(size: 10))
                                         .foregroundColor(.white.opacity(0.5))
@@ -229,6 +293,23 @@ struct PopupPostView: View {
                                     .fontWeight(.regular)
                                     .foregroundColor(.white.opacity(1.0))
                                     .multilineTextAlignment(.leading)
+=======
+                                    Text(viewModel.time)
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.white.opacity(0.5))
+                                        .padding(.horizontal, 6)
+                                    
+                                }
+                                
+            //                    NavigationLink(destination: ProfileContentTabView(user: viewModel.post.author)) {
+                                    
+                                Text(postViewModel.post.textContent ?? "")
+                                        .font(.system(size: 13))
+                                        .fontWeight(.regular)
+                                        .foregroundColor(.white.opacity(1.0))
+                                        .multilineTextAlignment(.leading)
+            //                    }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                             }
                         }
                         .padding(9)
@@ -240,6 +321,7 @@ struct PopupPostView: View {
                     }
                 }
                 .matchedGeometryEffect(id: postViewModel.id, in: namespace)
+<<<<<<< HEAD
                 
                 if showComments {
                     CommentListView(postViewModel: postViewModel)
@@ -313,11 +395,62 @@ struct PopupPostView: View {
                 }
             }
             .opacity(isRotated ? 0 : 1)
+=======
+
+                // Additional Post Details
+                VStack(alignment: .leading) {
+                    // User info, timestamp, etc.
+
+
+                    // Likes, comments, reposts count
+                    HStack {
+                        Text("Likes: \(postViewModel.getLikes().count)")
+                        // button for showing array of users that liked
+                        Text("Comments: \(postViewModel.getComments().count)")
+                        // button for showing array of comments
+                        Text("Reposts: \(postViewModel.getReposts().count)")
+                        // button for showing array of users that reposts (including quote count)
+                    }
+                }
+
+                // Interactions: Like, Comment, Repost, Share, etc.
+                HStack {
+                    Button("Like") {
+                        // Handle like action
+                    }
+                    Button("Comment") {
+                        // Handle comment action
+                    }
+                    Button("Repost") {
+                        // Handle repost action
+                    }
+                    // Add more as needed
+                }
+
+                Spacer()
+
+                // Dismiss Button
+                Button("Dismiss") {
+                    withAnimation(.spring()) {
+                        onDismiss()
+                    }
+                }
+                Button("comments") {
+                    withAnimation(.spring()) {
+                        showComments.toggle()
+                    }
+                }
+            }
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
         }
     }
 }
 
+<<<<<<< HEAD
 let mockPostViewModel = PostViewModel(post: SampleData.emmaImagePost, currentUser: SampleData.userJohn)
+=======
+let mockPostViewModel = PostViewModel(post: textPost, currentUser: User(id: UUID(), username: "Current User", profilePicture: "placeholderImage", following: [], followers: [], lurking: 100, status: .default, acquiredThemes: [], selectedTheme: ThemeContent(id: UUID(), name: "Sample Theme", content: Theme(themeURL: "placeholderImage"), price: 0.0, creationDate: Date(), approved: true), dateJoined: Date(), location: "Unknown"))
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
 #Preview {
     @Namespace var namespace

@@ -11,13 +11,18 @@ import AVKit
 struct LikedPostsView: View {
     var likedPosts: [Post]
     var user: User
+<<<<<<< HEAD
     @EnvironmentObject var postsVM: PostsViewModel // Use shared instance
     @Namespace private var namespace
     @State private var selectedPost: PostViewModel?
+=======
+    @State private var selectedPostIndex: Int?
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+<<<<<<< HEAD
                 ForEach(likedPosts.indices, id: \.self) { index in
                     let postViewModel = PostViewModel(post: likedPosts[index], currentUser: user)
                     PostView(
@@ -29,6 +34,13 @@ struct LikedPostsView: View {
                             selectedPost = selectedViewModel
                         }
                     )
+=======
+                ForEach(likedPosts) { post in
+                    PostView(viewModel: PostViewModel(post: post, currentUser: mockCurrentUser), 
+                             navigationPath: .constant(NavigationPath()))
+//                    , onSelect: { _ in selectedPostIndex = index }
+
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
                 }
                 .padding(12)
             }
@@ -43,6 +55,10 @@ let samplePost = Post(author: sampleUser, timestamp: Date(), textContent: "This 
 
 
 #Preview {
+<<<<<<< HEAD
     LikedPostsView(likedPosts: [samplePost], user: sampleUser)
         .environmentObject(PostsViewModel())
 }
+=======
+    LikedPostsView(likedPosts: [samplePost], user: sampleUser)}
+>>>>>>> 85b11f88b2b101550951597502aaa4378ff9e7ee
